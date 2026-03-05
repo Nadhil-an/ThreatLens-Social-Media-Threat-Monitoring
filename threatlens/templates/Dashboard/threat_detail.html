@@ -10,46 +10,51 @@
 
 <style>
 
+/* ===== PAGE ===== */
+
 body{
     background:#0d1117;
     color:#00ff9c;
     font-family:monospace;
-    padding:40px;
+    margin:0;
 }
 
-/* TITLE */
+/* ===== PAGE WRAPPER ===== */
+
+.wrapper{
+    max-width:1000px;
+    margin:auto;
+    padding:30px;
+}
+
+/* ===== TITLE ===== */
 
 .page-title{
     text-align:center;
-    font-size:36px;
-    margin-bottom:35px;
+    font-size:28px;
+    margin-bottom:25px;
 }
 
-/* CARD */
+/* ===== CARD ===== */
 
 .card{
     background:#161b22;
-    padding:35px;
-    width:95%;
-    margin:auto;
+    padding:25px;
     border:1px solid #00ff9c22;
 }
 
-/* TABLE */
+/* ===== TABLE ===== */
 
 table{
     width:100%;
     border-collapse:collapse;
-    margin-top:10px;
+    font-size:14px;
 }
 
 td, th{
-    padding:14px;
+    padding:10px;
     border-bottom:1px solid #00ff9c22;
-}
-
-th{
-    text-align:left;
+    vertical-align:top;
 }
 
 /* LABEL COLUMN */
@@ -60,13 +65,15 @@ th{
     color:#00e676;
 }
 
-/* VALUES */
+/* VALUE COLUMN */
 
 .value{
+    width:70%;
     color:#b8ffe7;
+    word-break:break-word;
 }
 
-/* SEVERITY */
+/* ===== SEVERITY ===== */
 
 .high{
     color:#ff4d4d;
@@ -83,24 +90,25 @@ th{
     font-weight:bold;
 }
 
-/* SECTION TITLES */
+/* ===== SECTION TITLES ===== */
 
 .section-title{
-    margin-top:45px;
-    margin-bottom:15px;
-    font-size:24px;
+    margin-top:35px;
+    margin-bottom:10px;
+    font-size:20px;
 }
 
-/* BUTTON */
+/* ===== BUTTON ===== */
 
 .back-btn{
     display:inline-block;
-    margin-top:30px;
-    padding:12px 20px;
+    margin-top:25px;
+    padding:10px 16px;
     background:#00ff9c;
     color:#0d1117;
     text-decoration:none;
     font-weight:bold;
+    font-size:14px;
 }
 
 .back-btn:hover{
@@ -118,11 +126,13 @@ th{
 
 <body>
 
+<div class="wrapper">
+
 <h1 class="page-title">Threat Investigation</h1>
 
 <div class="card">
 
-<!-- Threat Summary -->
+<!-- ===== Threat Summary ===== -->
 
 <h2 class="section-title">Threat Summary</h2>
 
@@ -135,7 +145,7 @@ th{
 
 <tr>
 <td class="label">Severity</td>
-<td class="{{ threat.severity|lower }}">{{ threat.severity }}</td>
+<td class="value {{ threat.severity|lower }}">{{ threat.severity }}</td>
 </tr>
 
 <tr>
@@ -171,7 +181,7 @@ th{
 </table>
 
 
-<!-- Extracted Indicators -->
+<!-- ===== Extracted Indicators ===== -->
 
 <h2 class="section-title">Extracted Indicators</h2>
 
@@ -235,7 +245,7 @@ None
 </table>
 
 
-<!-- Threat Intelligence -->
+<!-- ===== Threat Intelligence ===== -->
 
 <h2 class="section-title">Threat Intelligence</h2>
 
@@ -268,6 +278,8 @@ None
 
 <div class="center">
 <a href="/" class="back-btn">Back to Dashboard</a>
+</div>
+
 </div>
 
 </div>

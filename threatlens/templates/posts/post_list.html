@@ -7,13 +7,21 @@
 
 <style>
 
+/* ===== PAGE ===== */
+
 body{
     background:#0d1117;
     color:#00ff9c;
-    font-family:"Courier New", monospace;
+    font-family:monospace;
     margin:0;
-    padding:40px 60px;
-    font-size:18px;
+}
+
+/* WRAPPER */
+
+.wrapper{
+    max-width:1100px;
+    margin:auto;
+    padding:30px;
 }
 
 /* HEADER */
@@ -22,25 +30,24 @@ body{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin-bottom:30px;
+    margin-bottom:20px;
 }
 
 h1{
-    color:#00ff9c;
-    text-shadow:0 0 10px #00ff9c;
-    font-size:34px;
+    font-size:24px;
+    margin:0;
 }
 
 /* NAV BUTTONS */
 
 .nav-buttons a{
-    padding:10px 18px;
-    margin-left:10px;
+    padding:6px 12px;
+    margin-left:8px;
     background:#00ff9c;
     color:#0d1117;
     text-decoration:none;
     font-weight:bold;
-    border-radius:5px;
+    font-size:13px;
 }
 
 .nav-buttons a:hover{
@@ -50,11 +57,9 @@ h1{
 /* CONTAINER */
 
 .container{
-    width:100%;
     background:#161b22;
-    padding:30px;
-    border:1px solid #00ff9c33;
-    box-shadow:0 0 18px #00ff9c33;
+    padding:20px;
+    border:1px solid #00ff9c22;
 }
 
 /* TABLE */
@@ -64,35 +69,42 @@ table{
     border-collapse:collapse;
 }
 
+/* HEADER */
+
 th{
     background:#0f1720;
-    color:#00ff9c;
-    padding:16px;
-    border:1px solid #00ff9c44;
+    padding:10px;
+    font-size:13px;
     text-align:left;
+    border-bottom:1px solid #00ff9c22;
 }
+
+/* CELLS */
 
 td{
-    padding:16px;
-    border:1px solid #00ff9c22;
+    padding:10px;
+    font-size:13px;
+    border-bottom:1px solid #00ff9c11;
+    vertical-align:top;
 }
 
-/* Hover */
+/* HOVER */
 
 tr:hover{
-    background:#00ff9c10;
+    background:#00ff9c11;
 }
 
 /* POST TEXT */
 
 .post-text{
-    color:#a5ffdb;
+    color:#b8ffe7;
+    word-break:break-word;
 }
 
-/* SEVERITY COLORS */
+/* SEVERITY */
 
 .high{
-    color:#ff3b3b;
+    color:#ff4d4d;
     font-weight:bold;
 }
 
@@ -122,6 +134,8 @@ tr:hover{
 
 
 <body>
+
+<div class="wrapper">
 
 <div class="header">
 
@@ -191,6 +205,8 @@ tr:hover{
 {% endfor %}
 
 </table>
+
+</div>
 
 </div>
 

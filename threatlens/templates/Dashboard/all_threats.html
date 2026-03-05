@@ -7,60 +7,67 @@
 
 <style>
 
+/* ===== PAGE ===== */
+
 body{
-    font-family:"Courier New", monospace;
+    font-family:monospace;
     background:#0d1117;
     color:#00ff9c;
-    padding:40px 70px;
-    font-size:18px;
+    margin:0;
 }
 
-/* Page Title */
+/* PAGE WRAPPER */
+
+.wrapper{
+    max-width:1100px;
+    margin:auto;
+    padding:30px;
+}
+
+/* TITLE */
 
 h1{
-    color:#00ff9c;
-    text-shadow:0 0 12px #00ff9c;
-    font-size:38px;
-    margin-bottom:35px;
+    font-size:26px;
+    margin-bottom:20px;
 }
 
-/* Table */
+/* TABLE */
 
 table{
     width:100%;
     border-collapse:collapse;
     background:#161b22;
-    box-shadow:0 0 16px #00ff9c33;
 }
 
-/* Header */
+/* HEADER */
 
 th{
     background:#0f1720;
-    color:#00ff9c;
-    padding:16px;
-    font-size:20px;
-    border:1px solid #00ff9c44;
+    padding:10px;
+    font-size:13px;
+    text-align:left;
+    border-bottom:1px solid #00ff9c22;
 }
 
-/* Cells */
+/* CELLS */
 
 td{
-    padding:16px;
-    border:1px solid #00ff9c22;
-    font-size:18px;
+    padding:10px;
+    font-size:13px;
+    border-bottom:1px solid #00ff9c11;
+    vertical-align:top;
 }
 
-/* Hover effect */
+/* ROW HOVER */
 
 tr:hover{
     background:#00ff9c11;
 }
 
-/* Severity colors */
+/* SEVERITY COLORS */
 
 .high{
-    color:#ff3b3b;
+    color:#ff4d4d;
     font-weight:bold;
 }
 
@@ -74,36 +81,23 @@ tr:hover{
     font-weight:bold;
 }
 
-/* Links (Threat Type) */
+/* POST TEXT */
+
+.post-text{
+    color:#b8ffe7;
+    word-break:break-word;
+}
+
+/* LINKS */
 
 a{
     color:#00e0ff;
-    font-weight:900;
+    font-weight:bold;
     text-decoration:none;
-    letter-spacing:0.5px;
-    transition:0.25s;
 }
-
-/* Hover glow */
 
 a:hover{
     color:#00ff9c;
-    text-shadow:
-        0 0 6px #00ff9c,
-        0 0 12px #00ff9c,
-        0 0 18px #00ff9c;
-}
-
-/* Visited */
-
-a:visited{
-    color:#00e0ff;
-}
-
-/* Active */
-
-a:active{
-    color:white;
 }
 
 </style>
@@ -112,28 +106,30 @@ a:active{
 
 <body>
 
+<div class="wrapper">
+
 <h1>🛡 All Detected Threats</h1>
 
 <table>
 
 <tr>
-<th>Post</th>
+<th>Suspicious Post</th>
 <th>Threat Type</th>
 <th>Severity</th>
 <th>Score</th>
-<th>Time</th>
+<th>Detected Time</th>
 </tr>
 
 {% for threat in threats %}
 
 <tr>
 
-<td>
+<td class="post-text">
 {{ threat.post.content|truncatechars:100 }}
 </td>
 
 <td>
-<a  href="/threat/{{ threat.id }}/">
+<a href="/threat/{{ threat.id }}/">
 {{ threat.threat_type }}
 </a>
 </td>
@@ -155,6 +151,8 @@ a:active{
 {% endfor %}
 
 </table>
+
+</div>
 
 </body>
 

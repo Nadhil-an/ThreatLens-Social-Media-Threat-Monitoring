@@ -21,7 +21,7 @@ def dashboard(request):
     medium_threats = Threat.objects.filter(severity="Medium").count()
     low_threats = Threat.objects.filter(severity="Low").count()
 
-    recent_threats = Threat.objects.order_by('-detected_at')[:5]
+    recent_threats = Threat.objects.order_by('-detected_at')[:8]
 
     return render(request, "Dashboard/dashboard.html", {
         "total_threats": total_threats,

@@ -12,7 +12,7 @@
 body{
     background:#0d1117;
     color:#00ff9c;
-    font-family:"Courier New", monospace;
+    font-family:monospace;
     margin:0;
 }
 
@@ -22,91 +22,88 @@ body{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    padding:18px 60px;
+    padding:14px 40px;
     background:#0f1720;
-    border-bottom:1px solid #00ff9c33;
+    border-bottom:1px solid #00ff9c22;
 }
 
 .nav-title{
-    font-size:30px;
+    font-size:20px;
     font-weight:bold;
-    text-shadow:0 0 10px #00ff9c;
 }
 
 .nav-links a{
-    margin-left:25px;
+    margin-left:18px;
     color:#00e0ff;
-    font-weight:bold;
     text-decoration:none;
-    font-size:20px;
+    font-size:14px;
 }
 
 .nav-links a:hover{
     color:#00ff9c;
 }
 
-/* ===== MAIN CARD ===== */
+/* ===== MAIN CONTAINER ===== */
 
 .container{
-    width:60%;
+    max-width:850px;
     margin:auto;
-    margin-top:70px;
-    padding:40px;
+    margin-top:40px;
+    padding:30px;
     background:#161b22;
-    border:1px solid #00ff9c33;
-    box-shadow:0 0 18px #00ff9c33;
+    border:1px solid #00ff9c22;
 }
 
 /* ===== TITLE ===== */
 
 h2{
     text-align:center;
-    font-size:28px;
-    margin-bottom:35px;
-    text-shadow:0 0 10px #00ff9c;
+    font-size:20px;
+    margin-bottom:25px;
 }
 
 /* ===== FORM ===== */
 
 label{
-    font-size:18px;
+    font-size:14px;
 }
 
 textarea{
     width:100%;
-    height:140px;
-    padding:14px;
-    margin-top:8px;
-    margin-bottom:25px;
+    height:120px;
+    padding:10px;
+    margin-top:6px;
+    margin-bottom:16px;
+
     background:#0d1117;
-    border:1px solid #00ff9c;
+    border:1px solid #00ff9c33;
     color:#00ff9c;
-    font-family:monospace;
-    font-size:16px;
+
+    font-size:14px;
 }
 
 input{
     width:100%;
-    padding:12px;
-    margin-top:8px;
-    margin-bottom:25px;
+    padding:10px;
+    margin-top:6px;
+    margin-bottom:16px;
+
     background:#0d1117;
-    border:1px solid #00ff9c;
+    border:1px solid #00ff9c33;
     color:#00ff9c;
-    font-family:monospace;
-    font-size:16px;
+
+    font-size:14px;
 }
 
 /* ===== BUTTON ===== */
 
 button{
-    padding:12px 28px;
+    padding:10px 18px;
     background:#00ff9c;
     color:#0d1117;
     border:none;
-    border-radius:4px;
     font-weight:bold;
-    font-size:16px;
+    font-size:14px;
     cursor:pointer;
 }
 
@@ -117,18 +114,18 @@ button:hover{
 /* ===== RESULT PANEL ===== */
 
 .result-panel{
-    margin-top:40px;
-    padding:25px;
+    margin-top:30px;
+    padding:20px;
     background:#0d1117;
-    border:1px solid #00ff9c33;
+    border:1px solid #00ff9c22;
 }
 
 .result-panel h3{
+    font-size:17px;
     margin-bottom:15px;
-    text-shadow:0 0 8px #00ff9c;
 }
 
-/* RESULT TABLE */
+/* ===== RESULT TABLE ===== */
 
 .result-panel table{
     width:100%;
@@ -138,12 +135,29 @@ button:hover{
 .result-panel td{
     padding:10px;
     border-bottom:1px solid #00ff9c22;
+    vertical-align:top;
 }
 
-/* SEVERITY COLORS */
+/* LABEL COLUMN */
+
+.label{
+    width:30%;
+    font-weight:bold;
+    color:#00e676;
+}
+
+/* VALUE COLUMN */
+
+.value{
+    width:70%;
+    word-break:break-word;
+    color:#b9ffe6;
+}
+
+/* ===== SEVERITY ===== */
 
 .high{
-    color:#ff3b3b;
+    color:#ff4d4d;
     font-weight:bold;
 }
 
@@ -160,13 +174,13 @@ button:hover{
 /* ===== FOOT LINKS ===== */
 
 .bottom-links{
-    margin-top:30px;
+    margin-top:20px;
 }
 
 .bottom-links a{
     color:#00e0ff;
     text-decoration:none;
-    font-weight:bold;
+    font-size:14px;
 }
 
 .bottom-links a:hover{
@@ -179,7 +193,7 @@ button:hover{
 
 <body>
 
-<!-- ===== NAVBAR ===== -->
+<!-- NAVBAR -->
 
 <div class="navbar">
 
@@ -195,7 +209,7 @@ button:hover{
 </div>
 
 
-<!-- ===== FORM SECTION ===== -->
+<!-- MAIN -->
 
 <div class="container">
 
@@ -216,7 +230,7 @@ button:hover{
 </form>
 
 
-<!-- ===== ANALYSIS RESULT ===== -->
+<!-- RESULT PANEL -->
 
 {% if analysis %}
 
@@ -227,45 +241,45 @@ button:hover{
 <table>
 
 <tr>
-<td>Threat Type</td>
-<td>{{ analysis.threat_type }}</td>
+<td class="label">Threat Type</td>
+<td class="value">{{ analysis.threat_type }}</td>
 </tr>
 
 <tr>
-<td>Severity</td>
-<td class="{{ analysis.severity|lower }}">
+<td class="label">Severity</td>
+<td class="value {{ analysis.severity|lower }}">
 {{ analysis.severity }}
 </td>
 </tr>
 
 <tr>
-<td>Score</td>
-<td>{{ analysis.score }}</td>
+<td class="label">Score</td>
+<td class="value">{{ analysis.score }}</td>
 </tr>
 
 <tr>
-<td>Indicators</td>
-<td>{{ analysis.indicators }}</td>
+<td class="label">Indicators</td>
+<td class="value">{{ analysis.indicators }}</td>
 </tr>
 
 <tr>
-<td>URLs</td>
-<td>{{ analysis.urls }}</td>
+<td class="label">URLs</td>
+<td class="value">{{ analysis.urls }}</td>
 </tr>
 
 <tr>
-<td>Domains</td>
-<td>{{ analysis.domains }}</td>
+<td class="label">Domains</td>
+<td class="value">{{ analysis.domains }}</td>
 </tr>
 
 <tr>
-<td>IP Addresses</td>
-<td>{{ analysis.ips }}</td>
+<td class="label">IP Addresses</td>
+<td class="value">{{ analysis.ips }}</td>
 </tr>
 
 <tr>
-<td>Hashes</td>
-<td>{{ analysis.hashes }}</td>
+<td class="label">Hashes</td>
+<td class="value">{{ analysis.hashes }}</td>
 </tr>
 
 </table>
@@ -273,7 +287,6 @@ button:hover{
 </div>
 
 {% endif %}
-
 
 <div class="bottom-links">
 <a href="/posts/">⬅ View Submitted Posts</a>
