@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect
 from .models import Post
 from .forms import PostForm
+
 from analysis.indicator_extractor import extract_urls, extract_domains, extract_keywords
+from analysis.threat_detector import analyze_post
+
 from threats.models import Indicator
-from analysis.threat_detector import calculate_threat_score, classify_severity
-from threats.models import Threat
-from analysis.threat_detector import calculate_threat_score, classify_severity, analyze_urls
 
 
 def submit_post(request):
@@ -17,15 +17,14 @@ def submit_post(request):
         if form.is_valid():
 
             post = form.save()
-
             text = post.content
 
+            # Extract indicators
             urls = extract_urls(text)
-            domains = extract_domains(urls)
+            domains = extract_domains(text)
             keywords = extract_keywords(text)
 
-            # Save indicators (avoid duplicates)
-
+            # Save indicators
             for url in urls:
                 Indicator.objects.get_or_create(
                     indicator_type="url",
@@ -44,37 +43,19 @@ def submit_post(request):
                     value=keyword
                 )
 
-            # Threat detection
+            # Threat analysis
+            analyze_post(post, keywords, urls, domains)
 
-            keyword_score, keyword_indicators = calculate_threat_score(keywords)
-
-            # URL analysis score
-            url_score, url_indicators = analyze_urls(urls, domains)
-
-            score = keyword_score + url_score
-            indicators = keyword_indicators + url_indicators
-
-
-            severity = classify_severity(score)
-
-            if score > 0:
-                Threat.objects.create(
-                            post=post,
-                            severity=severity,
-                            score=score,
-                            indicators=", ".join(indicators)
-                        )
-
-            return redirect('post_list')
+            return redirect("post_list")
 
     else:
         form = PostForm()
 
-    return render(request, 'posts/submit_post.html', {'form': form})
-
-
+    return render(request, "posts/submit_post.html", {"form": form})
 
 
 def post_list(request):
-    posts = Post.objects.all().order_by('-created_at')
-    return render(request, 'posts/post_list.html', {'posts': posts})
+
+    posts = Post.objects.all().order_by("-created_at")
+
+    return render(request, "posts/post_list.html", {"posts": posts})

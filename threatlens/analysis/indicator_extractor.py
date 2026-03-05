@@ -2,24 +2,78 @@ import re
 from urllib.parse import urlparse
 
 
+# -----------------------------
+# URL EXTRACTION
+# -----------------------------
+
 def extract_urls(text):
+
     url_pattern = r'https?://[^\s]+|www\.[^\s]+'
     urls = re.findall(url_pattern, text)
+
     return urls
 
 
-def extract_domains(urls):
+# -----------------------------
+# DOMAIN EXTRACTION
+# -----------------------------
+
+def extract_domains(text):
+
+    urls = extract_urls(text)
+
     domains = []
 
     for url in urls:
+
+        if not url.startswith("http"):
+            url = "http://" + url
+
         parsed = urlparse(url)
-        domain = parsed.netloc
-        domains.append(domain)
+
+        if parsed.netloc:
+            domains.append(parsed.netloc)
 
     return domains
 
 
+# -----------------------------
+# IP ADDRESS EXTRACTION
+# -----------------------------
+
+def extract_ips(text):
+
+    ip_pattern = r'\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b'
+
+    ips = re.findall(ip_pattern, text)
+
+    return ips
+
+
+# -----------------------------
+# HASH EXTRACTION
+# -----------------------------
+
+def extract_hashes(text):
+
+    md5_pattern = r'\b[a-fA-F0-9]{32}\b'
+    sha256_pattern = r'\b[a-fA-F0-9]{64}\b'
+
+    md5_hashes = re.findall(md5_pattern, text)
+    sha256_hashes = re.findall(sha256_pattern, text)
+
+    return {
+        "md5": md5_hashes,
+        "sha256": sha256_hashes
+    }
+
+
+# -----------------------------
+# KEYWORD EXTRACTION
+# -----------------------------
+
 def extract_keywords(text):
+
     keywords = [
         "free giveaway",
         "verify account",

@@ -1,5 +1,5 @@
 from analysis.threat_detector import analyze_post
-
+from analysis.ioc_extractor import extract_urls, extract_domains, extract_emails, extract_ips, extract_crypto_wallets
 
 # Simulated phishing posts
 attack_posts = [
@@ -23,22 +23,23 @@ def simulate_attacks():
         print("\nAnalyzing Post:")
         print(post)
 
-        # simple extraction
         keywords = post.lower().split()
 
-        urls = []
-        domains = []
+        urls = extract_urls(post)
+        domains = extract_domains(urls)
 
-        for word in post.split():
+        emails = extract_emails(post)
+        ips = extract_ips(post)
+        wallets = extract_crypto_wallets(post)
 
-            if "http" in word:
-                urls.append(word)
+        print("URLs:", urls)
+        print("Domains:", domains)
+        print("Emails:", emails)
+        print("IPs:", ips)
+        print("Crypto Wallets:", wallets)
 
-                domain = word.split("//")[-1].split("/")[0]
-                domains.append(domain)
-
-        score, severity, indicators = analyze_post(None, keywords, urls, domains)
-
+        threat_type, score, severity, indicators = analyze_post(None, keywords, urls, domains)
+        print("Threat Type:", threat_type)
         print("Score:", score)
         print("Severity:", severity)
         print("Indicators:", indicators)

@@ -1,9 +1,194 @@
-<h2>Submit Suspicious Post</h2>
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Submit Suspicious Post</title>
+
+<style>
+
+/* PAGE */
+
+body{
+    background:#0d1117;
+    color:#00ff9c;
+    font-family:"Courier New", monospace;
+    margin:0;
+}
+
+/* NAVBAR */
+
+.navbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 60px;
+    background:#0f1720;
+    border-bottom:1px solid #00ff9c33;
+}
+
+.nav-title{
+    font-size:32px;
+    font-weight:bold;
+    text-shadow:0 0 10px #00ff9c;
+}
+
+.nav-links a{
+    margin-left:25px;
+    color:#00e0ff;
+    font-weight:bold;
+    text-decoration:none;
+    font-size:22px;
+}
+
+.nav-links a:hover{
+    color:#00ff9c;
+    text-shadow:0 0 8px #00ff9c;
+}
+
+/* MAIN CONTAINER */
+
+.container{
+    width:60%;
+    margin:auto;
+    margin-top:70px;
+    padding:40px;
+
+    background:#161b22;
+
+    border:1px solid #00ff9c33;
+    box-shadow:0 0 20px #00ff9c33;
+}
+
+/* TITLE */
+
+h2{
+    text-align:center;
+    font-size:30px;
+    margin-bottom:35px;
+    text-shadow:0 0 10px #00ff9c;
+}
+
+/* FORM */
+
+label{
+    font-size:18px;
+}
+
+textarea{
+    width:100%;
+    height:140px;
+    padding:14px;
+    margin-top:8px;
+    margin-bottom:25px;
+
+    background:#0d1117;
+    border:1px solid #00ff9c;
+    color:#00ff9c;
+
+    font-family:monospace;
+    font-size:16px;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    margin-top:8px;
+    margin-bottom:25px;
+
+    background:#0d1117;
+    border:1px solid #00ff9c;
+    color:#00ff9c;
+
+    font-family:monospace;
+    font-size:16px;
+}
+
+/* SUBMIT BUTTON */
+
+button{
+    padding:12px 28px;
+    background:#00ff9c;
+    color:#0d1117;
+
+    border:none;
+    border-radius:4px;
+
+    font-weight:bold;
+    font-size:16px;
+
+    cursor:pointer;
+}
+
+button:hover{
+    background:#00cc7a;
+}
+
+/* FOOT LINKS */
+
+.bottom-links{
+    margin-top:30px;
+}
+
+.bottom-links a{
+    color:#00e0ff;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.bottom-links a:hover{
+    color:#00ff9c;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<div class="navbar">
+
+<div class="nav-title">
+🛡 ThreatLens
+</div>
+
+<div class="nav-links">
+<a href="/">Dashboard</a>
+<a href="/posts/">Posts</a>
+</div>
+
+</div>
+
+
+<!-- FORM -->
+
+<div class="container">
+
+<h2> Submit Suspicious Post</h2>
 
 <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Submit</button>
+
+{% csrf_token %}
+
+<label>Content</label>
+{{ form.content }}
+
+<label>Source</label>
+{{ form.source }}
+
+<button type="submit">Submit Post</button>
+
 </form>
 
-<a href="/posts/">View Posts</a>
+<div class="bottom-links">
+
+<a href="/posts/">⬅ View Submitted Posts</a>
+
+</div>
+
+</div>
+
+</body>
+</html>

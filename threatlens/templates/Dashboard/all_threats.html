@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>All Detected Threats</title>
+
+<style>
+
+body{
+    font-family:"Courier New", monospace;
+    background:#0d1117;
+    color:#00ff9c;
+    padding:40px 70px;
+    font-size:18px;
+}
+
+/* Page Title */
+
+h1{
+    color:#00ff9c;
+    text-shadow:0 0 12px #00ff9c;
+    font-size:38px;
+    margin-bottom:35px;
+}
+
+/* Table */
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:#161b22;
+    box-shadow:0 0 16px #00ff9c33;
+}
+
+/* Header */
+
+th{
+    background:#0f1720;
+    color:#00ff9c;
+    padding:16px;
+    font-size:20px;
+    border:1px solid #00ff9c44;
+}
+
+/* Cells */
+
+td{
+    padding:16px;
+    border:1px solid #00ff9c22;
+    font-size:18px;
+}
+
+/* Hover effect */
+
+tr:hover{
+    background:#00ff9c11;
+}
+
+/* Severity colors */
+
+.high{
+    color:#ff3b3b;
+    font-weight:bold;
+}
+
+.medium{
+    color:#ffb300;
+    font-weight:bold;
+}
+
+.low{
+    color:#00ff9c;
+    font-weight:bold;
+}
+
+/* Links (Threat Type) */
+
+a{
+    color:#00e0ff;
+    font-weight:900;
+    text-decoration:none;
+    letter-spacing:0.5px;
+    transition:0.25s;
+}
+
+/* Hover glow */
+
+a:hover{
+    color:#00ff9c;
+    text-shadow:
+        0 0 6px #00ff9c,
+        0 0 12px #00ff9c,
+        0 0 18px #00ff9c;
+}
+
+/* Visited */
+
+a:visited{
+    color:#00e0ff;
+}
+
+/* Active */
+
+a:active{
+    color:white;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>🛡 All Detected Threats</h1>
+
+<table>
+
+<tr>
+<th>Post</th>
+<th>Threat Type</th>
+<th>Severity</th>
+<th>Score</th>
+<th>Time</th>
+</tr>
+
+{% for threat in threats %}
+
+<tr>
+
+<td>
+{{ threat.post.content|truncatechars:100 }}
+</td>
+
+<td>
+<a  href="/threat/{{ threat.id }}/">
+{{ threat.threat_type }}
+</a>
+</td>
+
+<td class="{{ threat.severity|lower }}">
+{{ threat.severity }}
+</td>
+
+<td>
+{{ threat.score }}
+</td>
+
+<td>
+{{ threat.detected_at }}
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</body>
+
+</html>

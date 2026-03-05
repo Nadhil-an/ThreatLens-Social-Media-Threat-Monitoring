@@ -2,7 +2,6 @@ from django.db import models
 from posts.models import Post
 
 
-
 class Domain(models.Model):
     domain_name = models.CharField(max_length=255, unique=True)
     reputation_score = models.IntegerField(default=0)
@@ -33,13 +32,17 @@ class Threat(models.Model):
 
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
 
+    threat_type = models.CharField(max_length=100)
+
     severity = models.CharField(max_length=20)
 
     score = models.IntegerField()
 
-    indicators = models.TextField(default="")
+    indicators = models.TextField()
+
+    vt_detections = models.IntegerField(null=True, blank=True)
 
     detected_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Threat - {self.severity} (Score: {self.score})"
+        return f"{self.threat_type} - {self.severity}"

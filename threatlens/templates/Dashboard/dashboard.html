@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>ThreatLens SOC Dashboard</title>
+
+<style>
+
+body{
+    font-family:"Courier New", monospace;
+    background:#0d1117;
+    color:#00ff9c;
+    padding:30px 60px;
+    font-size:18px;
+}
+
+/* ===== HEADER BAR ===== */
+
+.header-bar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:5px;
+}
+
+h1{
+    color:#00ff9c;
+    text-shadow:0 0 12px #00ff9c;
+    font-size:38px;
+}
+
+/* Scan Button */
+
+.scan-btn{
+    padding:12px 22px;
+    background:#00ff9c;
+    color:#0d1117;
+    text-decoration:none;
+    font-weight:bold;
+    border-radius:5px;
+    font-size:22px;
+}
+
+.scan-btn:hover{
+    background:#00cc7a;
+}
+
+/* SOC status */
+
+.soc-status{
+    color:#00e676;
+    margin-bottom:40px;
+    font-size:18px;
+}
+
+/* ===== STAT CARDS ===== */
+
+.stats-container{
+    display:flex;
+    gap:30px;
+    margin-bottom:50px;
+}
+
+.stat-box{
+    flex:1;
+    background:#161b22;
+    border:1px solid #00ff9c33;
+    box-shadow:0 0 16px #00ff9c33;
+    padding:35px;
+    text-align:center;
+}
+
+.stat-title{
+    font-size:22px;
+    margin-bottom:15px;
+}
+
+.stat-number{
+    font-size:50px;
+    font-weight:bold;
+}
+
+/* severity colors */
+
+.high{
+    color:#ff3b3b;
+}
+
+.medium{
+    color:#ffb300;
+}
+
+.low{
+    color:#00ff9c;
+}
+
+/* SECTION HEADER */
+
+.section-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+/* Show All button */
+
+.view-all-btn{
+    padding:10px 18px;
+    background:#00ff9c;
+    color:#0d1117;
+    text-decoration:none;
+    font-weight:bold;
+    border-radius:4px;
+}
+
+.view-all-btn:hover{
+    background:#00cc7a;
+}
+
+/* ===== TABLE ===== */
+
+table{
+    border-collapse:collapse;
+    width:100%;
+    margin-top:15px;
+    background:#161b22;
+    box-shadow:0 0 14px #00ff9c33;
+}
+
+th{
+    background:#0f1720;
+    color:#00ff9c;
+    padding:16px;
+    font-size:18px;
+    border:1px solid #00ff9c44;
+    text-align:left;
+}
+
+td{
+    padding:16px;
+    font-size:17px;
+    border:1px solid #00ff9c22;
+}
+
+tr:hover{
+    background:#00ff9c11;
+}
+
+/* highlight high severity */
+
+.high-row{
+    background:#2a0000;
+}
+
+/* post text */
+
+.post-text{
+    color:#a5ffdb;
+}
+
+/* links */
+
+a{
+    color:#00e0ff;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+
+
+</style>
+
+</head>
+
+
+<body>
+
+<!-- HEADER -->
+
+<div class="header-bar">
+
+<h1>🛡 ThreatLens SOC Dashboard</h1>
+
+<a href="/posts/submit/" class="scan-btn">
+🔍 Scan 
+</a>
+
+</div>
+
+
+<div class="soc-status">
+⚡ SOC Status: Monitoring Threat Activity
+</div>
+
+
+<!-- ===== TOP STATS ===== -->
+
+<div class="stats-container">
+
+<div class="stat-box">
+<div class="stat-title">Total Threats</div>
+<div class="stat-number">{{ total_threats }}</div>
+</div>
+
+<div class="stat-box">
+<div class="stat-title">High Severity</div>
+<div class="stat-number high">{{ high_threats }}</div>
+</div>
+
+<div class="stat-box">
+<div class="stat-title">Medium Severity</div>
+<div class="stat-number medium">{{ medium_threats }}</div>
+</div>
+
+<div class="stat-box">
+<div class="stat-title">Low Severity</div>
+<div class="stat-number low">{{ low_threats }}</div>
+</div>
+
+</div>
+
+
+<!-- ===== RECENT THREATS ===== -->
+
+<div class="section-header">
+
+<h3>⚠ Recent Threat Activity</h3>
+
+<a href="/all-threats/" class="view-all-btn">
+Show All
+</a>
+
+</div>
+
+
+<table>
+
+<tr>
+<th>Suspicious Post</th>
+<th>Threat Type</th>
+<th>Threat Level</th>
+<th>Score</th>
+<th>Detected Time</th>
+</tr>
+
+
+{% for threat in recent_threats %}
+
+<tr class="{% if threat.severity == 'High' %}high-row{% endif %}">
+
+<td class="post-text">
+{{ threat.post.content|truncatechars:90 }}
+</td>
+
+<td>
+<a href="/threat/{{ threat.id }}/">
+{{ threat.threat_type }}
+</a>
+</td>
+
+<td class="{{ threat.severity|lower }}">
+{{ threat.severity }}
+</td>
+
+<td>
+{{ threat.score }}
+</td>
+
+<td>
+{{ threat.detected_at }}
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</body>
+
+</html>

@@ -18,6 +18,11 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+     path('admin/', admin.site.urls),
+
+    # Dashboard becomes default homepage
+    path('', include('dashboard.urls')),
+
+    # Posts module
     path('posts/', include('posts.urls')),
 ]

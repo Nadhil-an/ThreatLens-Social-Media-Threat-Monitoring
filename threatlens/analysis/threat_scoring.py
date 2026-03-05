@@ -6,7 +6,11 @@ THREAT_SCORES = {
     "username_impersonation": 3
 
 }
+def calculate_final_score(keyword_score, url_score, hash_score):
 
+    total_score = keyword_score + url_score + hash_score
+
+    return total_score
 
 def calculate_threat_score(indicators):
 
@@ -33,3 +37,4 @@ def classify_severity(score):
 
     else:
         return "LOW"
+

@@ -104,6 +104,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+VIRUSTOTAL_API_KEY = "51172ffdb0b254084dcd0c503d4f078a4fa2401bbc13e56c58e3f9be7bcbc446"
+
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 

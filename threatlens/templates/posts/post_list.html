@@ -1,20 +1,198 @@
-<h2>Submitted Posts</h2>
+<!DOCTYPE html>
+<html>
 
-<table border="1">
+<head>
+
+<title>ThreatLens | Submitted Posts</title>
+
+<style>
+
+body{
+    background:#0d1117;
+    color:#00ff9c;
+    font-family:"Courier New", monospace;
+    margin:0;
+    padding:40px 60px;
+    font-size:18px;
+}
+
+/* ===== HEADER ===== */
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+}
+
+h1{
+    color:#00ff9c;
+    text-shadow:0 0 10px #00ff9c;
+    font-size:34px;
+}
+
+/* Navigation Buttons */
+
+.nav-buttons a{
+    padding:10px 18px;
+    margin-left:10px;
+    background:#00ff9c;
+    color:#0d1117;
+    text-decoration:none;
+    font-weight:bold;
+    border-radius:5px;
+}
+
+.nav-buttons a:hover{
+    background:#00cc7a;
+}
+
+/* ===== CONTAINER ===== */
+
+.container{
+    width:100%;
+    background:#161b22;
+    padding:30px;
+    border:1px solid #00ff9c33;
+    box-shadow:0 0 18px #00ff9c33;
+}
+
+/* ===== TABLE ===== */
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:10px;
+}
+
+th{
+    background:#0f1720;
+    color:#00ff9c;
+    padding:16px;
+    border:1px solid #00ff9c44;
+    text-align:left;
+    font-size:19px;
+}
+
+td{
+    padding:16px;
+    border:1px solid #00ff9c22;
+}
+
+/* Hover effect */
+
+tr:hover{
+    background:#00ff9c10;
+}
+
+/* ===== SEVERITY BADGES ===== */
+
+.high{
+    background:#ff3b3b;
+    color:white;
+    padding:6px 12px;
+    border-radius:5px;
+    font-weight:bold;
+}
+
+.medium{
+    background:#ffb300;
+    color:black;
+    padding:6px 12px;
+    border-radius:5px;
+    font-weight:bold;
+}
+
+.low{
+    background:#00ff9c;
+    color:black;
+    padding:6px 12px;
+    border-radius:5px;
+    font-weight:bold;
+}
+
+.safe{
+    background:#2e7d32;
+    color:white;
+    padding:6px 12px;
+    border-radius:5px;
+    font-weight:bold;
+}
+
+/* Post text */
+
+.post-text{
+    color:#a5ffdb;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<!-- HEADER -->
+
+<div class="header">
+
+<h1> Submitted Posts</h1>
+
+<div class="nav-buttons">
+
+<a href="/">🏠 Dashboard</a>
+
+<a href="{% url 'submit_post' %}">🔍 Scan Post</a>
+
+</div>
+
+</div>
+
+
+<div class="container">
+
+<table>
+
 <tr>
 <th>Source</th>
 <th>Content</th>
+<th>Severity</th>
 </tr>
 
 {% for post in posts %}
+
 <tr>
+
 <td>{{ post.source }}</td>
-<td>{{ post.content }}</td>
+
+<td class="post-text">
+{{ post.content }}
+</td>
+
+<td>
+
+{% if post.threat %}
+
+<span class="{{ post.threat.severity|lower }}">
+{{ post.threat.severity }}
+</span>
+
+{% else %}
+
+<span class="safe">SAFE</span>
+
+{% endif %}
+
+</td>
+
 </tr>
+
 {% endfor %}
 
 </table>
 
-<br>
+</div>
 
-<a href="{% url 'submit_post' %}">Submit New Post</a>
+</body>
+
+</html>
