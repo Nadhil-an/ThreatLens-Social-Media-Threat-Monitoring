@@ -13,68 +13,63 @@
 body{
     background:#0d1117;
     color:#00ff9c;
-    font-family:"Courier New", monospace;
+    font-family:monospace;
     padding:40px;
 }
 
-/* Page Title */
+/* TITLE */
 
 .page-title{
     text-align:center;
-    font-size:40px;
-    margin-bottom:40px;
-    text-shadow:0 0 12px #00ff9c;
+    font-size:36px;
+    margin-bottom:35px;
 }
 
-/* Main Card */
+/* CARD */
 
 .card{
     background:#161b22;
-    padding:40px;
-    border:1px solid #00ff9c33;
+    padding:35px;
     width:95%;
     margin:auto;
-    box-shadow:0 0 14px #00ff9c33;
+    border:1px solid #00ff9c22;
 }
 
-/* Tables */
+/* TABLE */
 
 table{
     width:100%;
     border-collapse:collapse;
-    font-size:18px;
+    margin-top:10px;
 }
 
-th{
-    background:#0f1720;
-    padding:12px;
-    border:1px solid #00ff9c33;
-    color:#00ff9c;
-}
-
-td{
-    padding:16px;
+td, th{
+    padding:14px;
     border-bottom:1px solid #00ff9c22;
 }
 
-/* Label column */
+th{
+    text-align:left;
+}
+
+/* LABEL COLUMN */
 
 .label{
-    color:#00e676;
-    font-weight:bold;
     width:30%;
+    font-weight:bold;
+    color:#00e676;
 }
 
-/* Value column */
+/* VALUES */
 
 .value{
-    color:#a5ffdb;
+    color:#b8ffe7;
 }
 
-/* Severity */
+/* SEVERITY */
 
 .high{
-    color:#ff3b3b;
+    color:#ff4d4d;
     font-weight:bold;
 }
 
@@ -88,34 +83,24 @@ td{
     font-weight:bold;
 }
 
-/* Section title */
+/* SECTION TITLES */
 
 .section-title{
-    text-align:center;
-    margin-top:50px;
-    margin-bottom:20px;
-    font-size:28px;
-    text-shadow:0 0 10px #00ff9c;
+    margin-top:45px;
+    margin-bottom:15px;
+    font-size:24px;
 }
 
-/* Hover */
-
-tr:hover{
-    background:#00ff9c11;
-}
-
-/* Button */
+/* BUTTON */
 
 .back-btn{
-    margin-top:35px;
     display:inline-block;
-    padding:14px 25px;
+    margin-top:30px;
+    padding:12px 20px;
     background:#00ff9c;
     color:#0d1117;
     text-decoration:none;
     font-weight:bold;
-    border-radius:5px;
-    font-size:18px;
 }
 
 .back-btn:hover{
@@ -133,11 +118,13 @@ tr:hover{
 
 <body>
 
-<h1 class="page-title">🛡 Threat Investigation</h1>
+<h1 class="page-title">Threat Investigation</h1>
 
 <div class="card">
 
 <!-- Threat Summary -->
+
+<h2 class="section-title">Threat Summary</h2>
 
 <table>
 
@@ -171,6 +158,16 @@ tr:hover{
 <td class="value">{{ threat.post.content }}</td>
 </tr>
 
+<tr>
+<td class="label">MITRE Technique</td>
+<td class="value">{{ mitre.technique }}</td>
+</tr>
+
+<tr>
+<td class="label">ATT&CK Tactic</td>
+<td class="value">{{ mitre.tactic }}</td>
+</tr>
+
 </table>
 
 
@@ -186,7 +183,7 @@ tr:hover{
 {% for u in urls %}
 {{ u }}<br>
 {% empty %}
-No URLs detected
+None
 {% endfor %}
 </td>
 </tr>
@@ -197,7 +194,7 @@ No URLs detected
 {% for d in domains %}
 {{ d }}<br>
 {% empty %}
-No domains detected
+None
 {% endfor %}
 </td>
 </tr>
@@ -208,7 +205,7 @@ No domains detected
 {% for ip in ips %}
 {{ ip }}<br>
 {% empty %}
-No IP addresses detected
+None
 {% endfor %}
 </td>
 </tr>
@@ -219,7 +216,7 @@ No IP addresses detected
 {% for h in hashes %}
 {{ h }}<br>
 {% empty %}
-No hashes detected
+None
 {% endfor %}
 </td>
 </tr>
@@ -230,7 +227,7 @@ No hashes detected
 {% for k in keywords %}
 {{ k }}<br>
 {% empty %}
-No keywords detected
+None
 {% endfor %}
 </td>
 </tr>
@@ -240,7 +237,7 @@ No keywords detected
 
 <!-- Threat Intelligence -->
 
-<h2 class="section-title">Threat Intelligence Lookup</h2>
+<h2 class="section-title">Threat Intelligence</h2>
 
 <table>
 
@@ -270,7 +267,7 @@ No keywords detected
 
 
 <div class="center">
-<a href="/" class="back-btn">⬅ Back to Dashboard</a>
+<a href="/" class="back-btn">Back to Dashboard</a>
 </div>
 
 </div>

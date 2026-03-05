@@ -3,11 +3,11 @@
 
 <head>
 
-<title>Submit Suspicious Post</title>
+<title>ThreatLens | Submit Suspicious Post</title>
 
 <style>
 
-/* PAGE */
+/* ===== PAGE ===== */
 
 body{
     background:#0d1117;
@@ -16,7 +16,7 @@ body{
     margin:0;
 }
 
-/* NAVBAR */
+/* ===== NAVBAR ===== */
 
 .navbar{
     display:flex;
@@ -28,7 +28,7 @@ body{
 }
 
 .nav-title{
-    font-size:32px;
+    font-size:30px;
     font-weight:bold;
     text-shadow:0 0 10px #00ff9c;
 }
@@ -38,38 +38,35 @@ body{
     color:#00e0ff;
     font-weight:bold;
     text-decoration:none;
-    font-size:22px;
+    font-size:20px;
 }
 
 .nav-links a:hover{
     color:#00ff9c;
-    text-shadow:0 0 8px #00ff9c;
 }
 
-/* MAIN CONTAINER */
+/* ===== MAIN CARD ===== */
 
 .container{
     width:60%;
     margin:auto;
     margin-top:70px;
     padding:40px;
-
     background:#161b22;
-
     border:1px solid #00ff9c33;
-    box-shadow:0 0 20px #00ff9c33;
+    box-shadow:0 0 18px #00ff9c33;
 }
 
-/* TITLE */
+/* ===== TITLE ===== */
 
 h2{
     text-align:center;
-    font-size:30px;
+    font-size:28px;
     margin-bottom:35px;
     text-shadow:0 0 10px #00ff9c;
 }
 
-/* FORM */
+/* ===== FORM ===== */
 
 label{
     font-size:18px;
@@ -81,11 +78,9 @@ textarea{
     padding:14px;
     margin-top:8px;
     margin-bottom:25px;
-
     background:#0d1117;
     border:1px solid #00ff9c;
     color:#00ff9c;
-
     font-family:monospace;
     font-size:16px;
 }
@@ -95,28 +90,23 @@ input{
     padding:12px;
     margin-top:8px;
     margin-bottom:25px;
-
     background:#0d1117;
     border:1px solid #00ff9c;
     color:#00ff9c;
-
     font-family:monospace;
     font-size:16px;
 }
 
-/* SUBMIT BUTTON */
+/* ===== BUTTON ===== */
 
 button{
     padding:12px 28px;
     background:#00ff9c;
     color:#0d1117;
-
     border:none;
     border-radius:4px;
-
     font-weight:bold;
     font-size:16px;
-
     cursor:pointer;
 }
 
@@ -124,7 +114,50 @@ button:hover{
     background:#00cc7a;
 }
 
-/* FOOT LINKS */
+/* ===== RESULT PANEL ===== */
+
+.result-panel{
+    margin-top:40px;
+    padding:25px;
+    background:#0d1117;
+    border:1px solid #00ff9c33;
+}
+
+.result-panel h3{
+    margin-bottom:15px;
+    text-shadow:0 0 8px #00ff9c;
+}
+
+/* RESULT TABLE */
+
+.result-panel table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.result-panel td{
+    padding:10px;
+    border-bottom:1px solid #00ff9c22;
+}
+
+/* SEVERITY COLORS */
+
+.high{
+    color:#ff3b3b;
+    font-weight:bold;
+}
+
+.medium{
+    color:#ffb300;
+    font-weight:bold;
+}
+
+.low{
+    color:#00ff9c;
+    font-weight:bold;
+}
+
+/* ===== FOOT LINKS ===== */
 
 .bottom-links{
     margin-top:30px;
@@ -146,7 +179,7 @@ button:hover{
 
 <body>
 
-<!-- NAVBAR -->
+<!-- ===== NAVBAR ===== -->
 
 <div class="navbar">
 
@@ -162,11 +195,11 @@ button:hover{
 </div>
 
 
-<!-- FORM -->
+<!-- ===== FORM SECTION ===== -->
 
 <div class="container">
 
-<h2> Submit Suspicious Post</h2>
+<h2>Submit Suspicious Post</h2>
 
 <form method="post">
 
@@ -182,10 +215,68 @@ button:hover{
 
 </form>
 
+
+<!-- ===== ANALYSIS RESULT ===== -->
+
+{% if analysis %}
+
+<div class="result-panel">
+
+<h3>Threat Analysis Result</h3>
+
+<table>
+
+<tr>
+<td>Threat Type</td>
+<td>{{ analysis.threat_type }}</td>
+</tr>
+
+<tr>
+<td>Severity</td>
+<td class="{{ analysis.severity|lower }}">
+{{ analysis.severity }}
+</td>
+</tr>
+
+<tr>
+<td>Score</td>
+<td>{{ analysis.score }}</td>
+</tr>
+
+<tr>
+<td>Indicators</td>
+<td>{{ analysis.indicators }}</td>
+</tr>
+
+<tr>
+<td>URLs</td>
+<td>{{ analysis.urls }}</td>
+</tr>
+
+<tr>
+<td>Domains</td>
+<td>{{ analysis.domains }}</td>
+</tr>
+
+<tr>
+<td>IP Addresses</td>
+<td>{{ analysis.ips }}</td>
+</tr>
+
+<tr>
+<td>Hashes</td>
+<td>{{ analysis.hashes }}</td>
+</tr>
+
+</table>
+
+</div>
+
+{% endif %}
+
+
 <div class="bottom-links">
-
 <a href="/posts/">⬅ View Submitted Posts</a>
-
 </div>
 
 </div>

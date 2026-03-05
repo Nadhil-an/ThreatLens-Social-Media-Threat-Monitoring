@@ -1,8 +1,16 @@
 from django.shortcuts import render, get_object_or_404
 from threats.models import Threat
-from analysis.indicator_extractor import extract_urls, extract_domains, extract_ips, extract_hashes, extract_keywords
-from analysis.threat_intel import check_hash_virustotal
 
+from analysis.indicator_extractor import (
+    extract_urls,
+    extract_domains,
+    extract_ips,
+    extract_hashes,
+    extract_keywords
+)
+
+from analysis.threat_intel import check_hash_virustotal
+from analysis.mitre_mapper import map_mitre
 
 
 def dashboard(request):
@@ -58,6 +66,12 @@ def threat_detail(request, threat_id):
                 "harmless": vt["harmless"]
             })
 
+    # --------------------------
+    # MITRE ATT&CK Mapping
+    # --------------------------
+
+    mitre = map_mitre(threat.threat_type)
+
     context = {
         "threat": threat,
         "urls": urls,
@@ -65,7 +79,8 @@ def threat_detail(request, threat_id):
         "ips": ips,
         "hashes": hashes,
         "keywords": keywords,
-        "vt_results": vt_results
+        "vt_results": vt_results,
+        "mitre": mitre   # ← THIS WAS MISSING
     }
 
     return render(request, "Dashboard/threat_detail.html", context)

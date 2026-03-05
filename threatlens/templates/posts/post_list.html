@@ -16,7 +16,7 @@ body{
     font-size:18px;
 }
 
-/* ===== HEADER ===== */
+/* HEADER */
 
 .header{
     display:flex;
@@ -31,7 +31,7 @@ h1{
     font-size:34px;
 }
 
-/* Navigation Buttons */
+/* NAV BUTTONS */
 
 .nav-buttons a{
     padding:10px 18px;
@@ -47,7 +47,7 @@ h1{
     background:#00cc7a;
 }
 
-/* ===== CONTAINER ===== */
+/* CONTAINER */
 
 .container{
     width:100%;
@@ -57,12 +57,11 @@ h1{
     box-shadow:0 0 18px #00ff9c33;
 }
 
-/* ===== TABLE ===== */
+/* TABLE */
 
 table{
     width:100%;
     border-collapse:collapse;
-    margin-top:10px;
 }
 
 th{
@@ -71,7 +70,6 @@ th{
     padding:16px;
     border:1px solid #00ff9c44;
     text-align:left;
-    font-size:19px;
 }
 
 td{
@@ -79,50 +77,43 @@ td{
     border:1px solid #00ff9c22;
 }
 
-/* Hover effect */
+/* Hover */
 
 tr:hover{
     background:#00ff9c10;
 }
 
-/* ===== SEVERITY BADGES ===== */
+/* POST TEXT */
+
+.post-text{
+    color:#a5ffdb;
+}
+
+/* SEVERITY COLORS */
 
 .high{
-    background:#ff3b3b;
-    color:white;
-    padding:6px 12px;
-    border-radius:5px;
+    color:#ff3b3b;
     font-weight:bold;
 }
 
 .medium{
-    background:#ffb300;
-    color:black;
-    padding:6px 12px;
-    border-radius:5px;
+    color:#ffb300;
     font-weight:bold;
 }
 
 .low{
-    background:#00ff9c;
-    color:black;
-    padding:6px 12px;
-    border-radius:5px;
+    color:#00ff9c;
     font-weight:bold;
 }
 
 .safe{
-    background:#2e7d32;
-    color:white;
-    padding:6px 12px;
-    border-radius:5px;
+    color:#4caf50;
     font-weight:bold;
 }
 
-/* Post text */
-
-.post-text{
-    color:#a5ffdb;
+.score{
+    color:#00ff9c;
+    font-weight:bold;
 }
 
 </style>
@@ -132,17 +123,15 @@ tr:hover{
 
 <body>
 
-<!-- HEADER -->
-
 <div class="header">
 
-<h1> Submitted Posts</h1>
+<h1>Submitted Posts</h1>
 
 <div class="nav-buttons">
 
-<a href="/">🏠 Dashboard</a>
+<a href="/">Dashboard</a>
 
-<a href="{% url 'submit_post' %}">🔍 Scan Post</a>
+<a href="{% url 'submit_post' %}">Scan Post</a>
 
 </div>
 
@@ -157,7 +146,9 @@ tr:hover{
 <th>Source</th>
 <th>Content</th>
 <th>Severity</th>
+<th>Score</th>
 </tr>
+
 
 {% for post in posts %}
 
@@ -181,6 +172,16 @@ tr:hover{
 
 <span class="safe">SAFE</span>
 
+{% endif %}
+
+</td>
+
+<td>
+
+{% if post.threat %}
+<span class="score">{{ post.threat.score }}</span>
+{% else %}
+0
 {% endif %}
 
 </td>

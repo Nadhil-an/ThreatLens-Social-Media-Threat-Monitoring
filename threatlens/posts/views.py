@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Post
 from .forms import PostForm
-
+from threats.models import Threat
 
 from analysis.indicator_extractor import (
     extract_urls,
@@ -16,6 +16,8 @@ from threats.models import Indicator
 
 
 def submit_post(request):
+
+    analysis_result = None
 
     if request.method == "POST":
 
@@ -51,33 +53,60 @@ def submit_post(request):
                     indicator_type="keyword",
                     value=keyword
                 )
+
             for ip in ips:
                 Indicator.objects.get_or_create(
                     indicator_type="ip",
                     value=ip
                 )
 
-
-            # Save hash indicators
             for h in hashes:
                 Indicator.objects.get_or_create(
                     indicator_type="hash",
                     value=h
                 )
 
-            # Threat analysis
-            analyze_post(post, keywords, urls, domains, ips, hashes)
+            # Run threat analysis
+            threat_type, score, severity, indicators, mitre = analyze_post(
+                post,
+                keywords,
+                urls,
+                domains,
+                ips,
+                hashes
+            )
 
-            return redirect("post_list")
+            analysis_result = {
+                    "threat_type": threat_type,
+                    "score": score,
+                    "severity": severity,
+                    "indicators": indicators,
+                    "urls": urls,
+                    "domains": domains,
+                    "ips": ips,
+                    "hashes": hashes,
+                    "mitre_technique": mitre["technique"],
+                    "mitre_tactic": mitre["tactic"]
+                }
 
     else:
         form = PostForm()
 
-    return render(request, "posts/submit_post.html", {"form": form})
+    return render(
+        request,
+        "posts/submit_post.html",
+        {
+            "form": form,
+            "analysis": analysis_result
+        }
+    )
 
 
 def post_list(request):
 
     posts = Post.objects.all().order_by("-created_at")
+
+    for post in posts:
+        post.threat = Threat.objects.filter(post=post).first()
 
     return render(request, "posts/post_list.html", {"posts": posts})
