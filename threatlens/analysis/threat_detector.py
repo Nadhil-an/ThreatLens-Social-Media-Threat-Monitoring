@@ -171,7 +171,7 @@ def classify_threat_type(post_text, urls, domains, indicators):
 # MAIN POST ANALYSIS PIPELINE
 # ------------------------------
 
-def analyze_post(post, keywords, urls, domains):
+def analyze_post(post, keywords, urls, domains, ips, hashes):
 
     # Keyword analysis
     keyword_score, keyword_indicators = calculate_threat_score(keywords)

@@ -54,6 +54,7 @@ def extract_ips(text):
 # HASH EXTRACTION
 # -----------------------------
 
+
 def extract_hashes(text):
 
     md5_pattern = r'\b[a-fA-F0-9]{32}\b'
@@ -62,10 +63,9 @@ def extract_hashes(text):
     md5_hashes = re.findall(md5_pattern, text)
     sha256_hashes = re.findall(sha256_pattern, text)
 
-    return {
-        "md5": md5_hashes,
-        "sha256": sha256_hashes
-    }
+    hashes = md5_hashes + sha256_hashes
+
+    return hashes
 
 
 # -----------------------------

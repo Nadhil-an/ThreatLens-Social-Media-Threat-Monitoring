@@ -8,8 +8,8 @@ def analyze_hash(file_hash):
     if not result:
         return None
 
-    malicious = result["malicious"]
-    suspicious = result["suspicious"]
+    malicious = result.get("malicious", 0)
+    suspicious = result.get("suspicious", 0)
 
     score = 0
 

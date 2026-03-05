@@ -17,17 +17,16 @@ body{
     padding:40px;
 }
 
-/* Title */
+/* Page Title */
 
-h2{
-    color:#00ff9c;
-    text-shadow:0 0 12px #00ff9c;
+.page-title{
     text-align:center;
-    margin-bottom:40px;
     font-size:40px;
+    margin-bottom:40px;
+    text-shadow:0 0 12px #00ff9c;
 }
 
-/* Investigation container */
+/* Main Card */
 
 .card{
     background:#161b22;
@@ -38,18 +37,23 @@ h2{
     box-shadow:0 0 14px #00ff9c33;
 }
 
-/* Table */
+/* Tables */
 
 table{
     width:100%;
     border-collapse:collapse;
-    font-size:20px;
+    font-size:18px;
 }
 
-/* Table rows */
+th{
+    background:#0f1720;
+    padding:12px;
+    border:1px solid #00ff9c33;
+    color:#00ff9c;
+}
 
 td{
-    padding:18px;
+    padding:16px;
     border-bottom:1px solid #00ff9c22;
 }
 
@@ -58,18 +62,16 @@ td{
 .label{
     color:#00e676;
     font-weight:bold;
-    width:35%;
-    font-size:22px;
+    width:30%;
 }
 
 /* Value column */
 
 .value{
     color:#a5ffdb;
-    font-size:20px;
 }
 
-/* Severity colors */
+/* Severity */
 
 .high{
     color:#ff3b3b;
@@ -84,6 +86,16 @@ td{
 .low{
     color:#00ff9c;
     font-weight:bold;
+}
+
+/* Section title */
+
+.section-title{
+    text-align:center;
+    margin-top:50px;
+    margin-bottom:20px;
+    font-size:28px;
+    text-shadow:0 0 10px #00ff9c;
 }
 
 /* Hover */
@@ -114,46 +126,18 @@ tr:hover{
     text-align:center;
 }
 
-.ioc-panel{
-
-background:#161b22;
-padding:25px;
-border:1px solid #00ff9c33;
-margin-top:30px;
-box-shadow:0 0 12px #00ff9c33;
-
-}
-
-.ioc-panel h3{
-
-color:#00e0ff;
-margin-top:15px;
-
-}
-
-.ioc-panel ul{
-
-list-style:none;
-padding-left:0;
-
-}
-
-.ioc-panel li{
-
-padding:5px 0;
-color:#a5ffdb;
-
-}
-
 </style>
 
 </head>
 
+
 <body>
 
-<h2>🛡 Threat Investigation</h2>
+<h1 class="page-title">🛡 Threat Investigation</h1>
 
 <div class="card">
+
+<!-- Threat Summary -->
 
 <table>
 
@@ -177,8 +161,6 @@ color:#a5ffdb;
 <td class="value">{{ threat.indicators }}</td>
 </tr>
 
-
-
 <tr>
 <td class="label">Detected Time</td>
 <td class="value">{{ threat.detected_at }}</td>
@@ -192,46 +174,100 @@ color:#a5ffdb;
 </table>
 
 
-<h2> Extracted Indicators</h2>
+<!-- Extracted Indicators -->
 
-<div class="ioc-panel">
+<h2 class="section-title">Extracted Indicators</h2>
 
-<h3>URLs</h3>
-<ul>
+<table>
+
+<tr>
+<td class="label">URLs</td>
+<td class="value">
 {% for u in urls %}
-<li>{{ u }}</li>
+{{ u }}<br>
+{% empty %}
+No URLs detected
 {% endfor %}
-</ul>
+</td>
+</tr>
 
-<h3>Domains</h3>
-<ul>
+<tr>
+<td class="label">Domains</td>
+<td class="value">
 {% for d in domains %}
-<li>{{ d }}</li>
+{{ d }}<br>
+{% empty %}
+No domains detected
 {% endfor %}
-</ul>
+</td>
+</tr>
 
-<h3>IP Addresses</h3>
-<ul>
+<tr>
+<td class="label">IP Addresses</td>
+<td class="value">
 {% for ip in ips %}
-<li>{{ ip }}</li>
+{{ ip }}<br>
+{% empty %}
+No IP addresses detected
 {% endfor %}
-</ul>
+</td>
+</tr>
 
-<h3>Hashes</h3>
-<ul>
+<tr>
+<td class="label">Hashes</td>
+<td class="value">
 {% for h in hashes %}
-<li>{{ h }}</li>
+{{ h }}<br>
+{% empty %}
+No hashes detected
 {% endfor %}
-</ul>
+</td>
+</tr>
 
-<h3>Keywords</h3>
-<ul>
+<tr>
+<td class="label">Keywords</td>
+<td class="value">
 {% for k in keywords %}
-<li>{{ k }}</li>
+{{ k }}<br>
+{% empty %}
+No keywords detected
 {% endfor %}
-</ul>
+</td>
+</tr>
 
-</div>
+</table>
+
+
+<!-- Threat Intelligence -->
+
+<h2 class="section-title">Threat Intelligence Lookup</h2>
+
+<table>
+
+<tr>
+<th>Hash</th>
+<th>Malicious</th>
+<th>Harmless</th>
+</tr>
+
+{% for vt in vt_results %}
+
+<tr>
+<td>{{ vt.hash }}</td>
+<td class="high">{{ vt.malicious }}</td>
+<td>{{ vt.harmless }}</td>
+</tr>
+
+{% empty %}
+
+<tr>
+<td colspan="3">No threat intelligence results</td>
+</tr>
+
+{% endfor %}
+
+</table>
+
 
 <div class="center">
 <a href="/" class="back-btn">⬅ Back to Dashboard</a>

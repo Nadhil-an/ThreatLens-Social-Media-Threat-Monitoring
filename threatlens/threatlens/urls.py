@@ -25,4 +25,6 @@ urlpatterns = [
 
     # Posts module
     path('posts/', include('posts.urls')),
+
+
 ]

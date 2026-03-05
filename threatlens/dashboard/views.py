@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from threats.models import Threat
 from analysis.indicator_extractor import extract_urls, extract_domains, extract_ips, extract_hashes, extract_keywords
+from analysis.threat_intel import check_hash_virustotal
 
 
 
@@ -44,13 +45,27 @@ def threat_detail(request, threat_id):
     hashes = extract_hashes(content)
     keywords = extract_keywords(content)
 
+    vt_results = []
+
+    for h in hashes:
+
+        vt = check_hash_virustotal(h)
+
+        if vt:
+            vt_results.append({
+                "hash": h,
+                "malicious": vt["malicious"],
+                "harmless": vt["harmless"]
+            })
+
     context = {
         "threat": threat,
         "urls": urls,
         "domains": domains,
         "ips": ips,
         "hashes": hashes,
-        "keywords": keywords
+        "keywords": keywords,
+        "vt_results": vt_results
     }
 
     return render(request, "Dashboard/threat_detail.html", context)

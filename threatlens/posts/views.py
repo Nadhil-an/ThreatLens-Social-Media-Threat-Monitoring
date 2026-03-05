@@ -2,7 +2,14 @@ from django.shortcuts import render, redirect
 from .models import Post
 from .forms import PostForm
 
-from analysis.indicator_extractor import extract_urls, extract_domains, extract_keywords
+
+from analysis.indicator_extractor import (
+    extract_urls,
+    extract_domains,
+    extract_keywords,
+    extract_ips,
+    extract_hashes
+)
 from analysis.threat_detector import analyze_post
 
 from threats.models import Indicator
@@ -23,6 +30,8 @@ def submit_post(request):
             urls = extract_urls(text)
             domains = extract_domains(text)
             keywords = extract_keywords(text)
+            ips = extract_ips(text)
+            hashes = extract_hashes(text)
 
             # Save indicators
             for url in urls:
@@ -42,9 +51,22 @@ def submit_post(request):
                     indicator_type="keyword",
                     value=keyword
                 )
+            for ip in ips:
+                Indicator.objects.get_or_create(
+                    indicator_type="ip",
+                    value=ip
+                )
+
+
+            # Save hash indicators
+            for h in hashes:
+                Indicator.objects.get_or_create(
+                    indicator_type="hash",
+                    value=h
+                )
 
             # Threat analysis
-            analyze_post(post, keywords, urls, domains)
+            analyze_post(post, keywords, urls, domains, ips, hashes)
 
             return redirect("post_list")
 

@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'threats',
     'analysis',
     'dashboard',
+    
 ]
 
 MIDDLEWARE = [

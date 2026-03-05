@@ -1,7 +1,6 @@
 import requests
 from django.conf import settings
 
-
 VT_BASE_URL = "https://www.virustotal.com/api/v3"
 
 
@@ -21,7 +20,10 @@ def check_domain_virustotal(domain):
 
         response = requests.get(url, headers=headers)
 
+        print("VT DOMAIN STATUS:", response.status_code)
+
         if response.status_code != 200:
+            print("VirusTotal Domain Error:", response.text)
             return None
 
         data = response.json()
@@ -59,19 +61,20 @@ def check_hash_virustotal(file_hash):
 
         response = requests.get(url, headers=headers)
 
+        print("VT HASH STATUS:", response.status_code)
+
         if response.status_code != 200:
+            print("VirusTotal Hash Error:", response.text)
             return None
 
         data = response.json()
 
         stats = data["data"]["attributes"]["last_analysis_stats"]
 
-        malicious = stats.get("malicious", 0)
-        suspicious = stats.get("suspicious", 0)
-
         return {
-            "malicious": malicious,
-            "suspicious": suspicious
+            "malicious": stats.get("malicious", 0),
+            "suspicious": stats.get("suspicious", 0),
+            "harmless": stats.get("harmless", 0)
         }
 
     except Exception as e:
