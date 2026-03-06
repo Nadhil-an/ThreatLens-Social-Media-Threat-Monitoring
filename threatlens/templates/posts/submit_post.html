@@ -1,74 +1,129 @@
-{% include 'head.html' with page_title='ThreatLens | Submit Suspicious Post' %}
+{% include 'head.html' with page_title='ThreatLens | Analyze Threat' %}
 <body>
+
 <!-- NAVBAR -->
 <div class="navbar">
-<div class="nav-title">
-🛡 ThreatLens
-</div>
-<div class="nav-links">
-<a href="/">Dashboard</a>
-<a href="/posts/">Posts</a>
-</div>
+    <div class="nav-title">🛡 ThreatLens</div>
+    <div class="nav-links">
+        <a href="/">Dashboard</a>
+        <a href="/posts/">Posts</a>
+    </div>
 </div>
 
 <!-- MAIN -->
 <div class="submit-container">
-<h2>Submit Suspicious Post</h2>
-<form method="post">
-{% csrf_token %}
-<label>Content</label>
-{{ form.content }}
-<label>Source</label>
-{{ form.source }}
-<button type="submit">Submit Post</button>
-</form>
 
-<!-- RESULT PANEL -->
-{% if analysis %}
-<div class="result-panel">
-<h3>Threat Analysis Result</h3>
-<table>
-<tr>
-<td class="label">Threat Type</td>
-<td class="value">{{ analysis.threat_type }}</td>
-</tr>
-<tr>
-<td class="label">Severity</td>
-<td class="value {{ analysis.severity|lower }}">
-{{ analysis.severity }}
-</td>
-</tr>
-<tr>
-<td class="label">Score</td>
-<td class="value">{{ analysis.score }}</td>
-</tr>
-<tr>
-<td class="label">Indicators</td>
-<td class="value">{{ analysis.indicators }}</td>
-</tr>
-<tr>
-<td class="label">URLs</td>
-<td class="value">{{ analysis.urls }}</td>
-</tr>
-<tr>
-<td class="label">Domains</td>
-<td class="value">{{ analysis.domains }}</td>
-</tr>
-<tr>
-<td class="label">IP Addresses</td>
-<td class="value">{{ analysis.ips }}</td>
-</tr>
-<tr>
-<td class="label">Hashes</td>
-<td class="value">{{ analysis.hashes }}</td>
-</tr>
-</table>
+    <h2>Analyze Suspicious Content</h2>
+    
+    <!-- VT Style Tabs -->
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('text-tab', this)">📝 Text Input</button>
+        <button class="tab-btn" onclick="switchTab('file-tab', this)">📂 File Upload</button>
+    </div>
+
+    <!-- TEXT INPUT -->
+    <div id="text-tab" class="tab-content active">
+        <form method="post">
+            {% csrf_token %}
+            <label>Suspicious Content</label>
+            {{ form.content }}
+            <label>Source</label>
+            {{ form.source }}
+            <button type="submit">Analyze Text</button>
+        </form>
+    </div>
+
+    <!-- FILE UPLOAD -->
+    <div id="file-tab" class="tab-content" style="display: none;">
+        <p style="color:#b8ffe7; margin-bottom:15px; font-size:13px;">
+            Upload a <strong>.txt</strong> or <strong>.csv</strong> file. Each line will be analyzed separately.
+        </p>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label>Select File</label>
+            <input type="file" name="bulk_file" accept=".txt,.csv" style="margin-bottom:20px;">
+            <button type="submit">Upload & Analyze File</button>
+        </form>
+    </div>
+
+    <!-- FILE ERROR -->
+    {% if error %}
+    <div class="upload-error">
+        ⚠ {{ error }}
+    </div>
+    {% endif %}
+
+    <!-- TEXT RESULT PANEL -->
+    {% if analysis %}
+    <div class="result-panel">
+        <h3>Single Threat Analysis Result</h3>
+        <table>
+            <tr><td class="label">Threat Type</td><td class="value">{{ analysis.threat_type }}</td></tr>
+            <tr><td class="label">Severity</td><td class="value {{ analysis.severity|lower }}">{{ analysis.severity }}</td></tr>
+            <tr><td class="label">Score</td><td class="value">{{ analysis.score }}</td></tr>
+            <tr><td class="label">Indicators</td><td class="value">{{ analysis.indicators }}</td></tr>
+            <tr><td class="label">URLs</td><td class="value">{{ analysis.urls }}</td></tr>
+            <tr><td class="label">Domains</td><td class="value">{{ analysis.domains }}</td></tr>
+            <tr><td class="label">IPs</td><td class="value">{{ analysis.ips }}</td></tr>
+            <tr><td class="label">Hashes</td><td class="value">{{ analysis.hashes }}</td></tr>
+        </table>
+        <div class="bottom-links" style="margin-top:16px;">
+            <a href="/all-threats/">View All Threats →</a>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- BULK RESULT PANEL -->
+    {% if bulk_results %}
+    <div class="result-panel">
+        <h3>Bulk Analysis Results — {{ bulk_results|length }} line(s) scanned</h3>
+        <table>
+            <tr>
+                <th>#</th>
+                <th>Content (excerpt)</th>
+                <th>Threat Type</th>
+                <th>Severity</th>
+                <th>Score</th>
+            </tr>
+            {% for r in bulk_results %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td class="post-text">{{ r.line }}</td>
+                <td>{{ r.threat_type }}</td>
+                <td class="{{ r.severity|lower }}">{{ r.severity }}</td>
+                <td>{{ r.score }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <div class="bottom-links" style="margin-top:16px;">
+            <a href="/all-threats/">View All Threats →</a>
+        </div>
+    </div>
+    {% endif %}
+
 </div>
-{% endif %}
-<div class="bottom-links">
-<a href="/posts/">⬅ View Submitted Posts</a>
-</div>
-</div>
+
 {% include 'footer.html' %}
+
+<script>
+function switchTab(tabId, btn) {
+    // Hide all contents
+    document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+    // Remove active class from all buttons
+    document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+    
+    // Show selected content and set active button
+    document.getElementById(tabId).style.display = 'block';
+    btn.classList.add('active');
+}
+
+// Preserve tab state if there's an error or bulk result
+{% if bulk_results or error %}
+    document.addEventListener("DOMContentLoaded", function() {
+        switchTab('file-tab', document.querySelectorAll('.tab-btn')[1]);
+    });
+{% endif %}
+</script>
+
 </body>
 </html>

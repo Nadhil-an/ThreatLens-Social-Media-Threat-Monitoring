@@ -1,0 +1,91 @@
+{% include 'head.html' with page_title='Threat Chart | ThreatLens' %}
+<body>
+<div class="wrapper">
+
+<div class="header-bar">
+    <h1>📊 Threat Distribution</h1>
+    <a href="/" class="scan-btn">← Dashboard</a>
+</div>
+
+<div class="charts-row">
+
+    <!-- Bar Chart -->
+    <div class="chart-box">
+        <h3>By Severity (Bar)</h3>
+        <canvas id="barChart"></canvas>
+    </div>
+
+    <!-- Pie Chart -->
+    <div class="chart-box">
+        <h3>By Severity (Pie)</h3>
+        <canvas id="pieChart"></canvas>
+    </div>
+
+</div>
+
+<!-- Summary counts -->
+<div class="stats-container" style="margin-top: 30px;">
+    <div class="stat-box">
+        <div class="stat-title">High</div>
+        <div class="stat-number high">{{ high }}</div>
+    </div>
+    <div class="stat-box">
+        <div class="stat-title">Medium</div>
+        <div class="stat-number medium">{{ medium }}</div>
+    </div>
+    <div class="stat-box">
+        <div class="stat-title">Low</div>
+        <div class="stat-number low">{{ low }}</div>
+    </div>
+</div>
+
+</div>
+{% include 'footer.html' %}
+
+<!-- Chart.js from CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const labels = ['High', 'Medium', 'Low'];
+    const data   = [{{ high }}, {{ medium }}, {{ low }}];
+    const bgColors = ['#ff4d4d', '#ffb300', '#00ff9c'];
+
+    // Bar Chart
+    new Chart(document.getElementById('barChart'), {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Threat Count',
+                data: data,
+                backgroundColor: bgColors,
+                borderRadius: 4,
+            }]
+        },
+        options: {
+            plugins: { legend: { display: false } },
+            scales: {
+                x: { ticks: { color: '#00ff9c' }, grid: { color: '#00ff9c11' } },
+                y: { ticks: { color: '#00ff9c' }, grid: { color: '#00ff9c22' }, beginAtZero: true }
+            }
+        }
+    });
+
+    // Pie Chart
+    new Chart(document.getElementById('pieChart'), {
+        type: 'pie',
+        data: {
+            labels: labels,
+            datasets: [{
+                data: data,
+                backgroundColor: bgColors,
+            }]
+        },
+        options: {
+            plugins: {
+                legend: { labels: { color: '#00ff9c' } }
+            }
+        }
+    });
+</script>
+</body>
+</html>

@@ -231,3 +231,116 @@ textarea, input[type="text"] {
     color: #00ff9c;
     margin-top: auto;
 }
+
+/* Filter Form */
+.filter-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 16px;
+    background: #161b22;
+    border: 1px solid #00ff9c22;
+}
+
+.filter-form input[type="text"],
+.filter-form input[type="date"],
+.filter-form select {
+    padding: 8px 10px;
+    background: #0d1117;
+    border: 1px solid #00ff9c33;
+    color: #00ff9c;
+    font-size: 13px;
+    font-family: monospace;
+    margin: 0;
+}
+
+.filter-form select option { background: #0d1117; }
+
+.clear-btn {
+    display: inline-block;
+    padding: 8px 14px;
+    background: transparent;
+    border: 1px solid #00ff9c44;
+    color: #00ff9c;
+    font-size: 13px;
+    font-family: monospace;
+    text-decoration: none;
+    cursor: pointer;
+}
+.clear-btn:hover { background: #00ff9c22; color: #00ff9c; }
+
+/* Pagination */
+.pagination {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.page-btn {
+    padding: 6px 14px;
+    background: #00ff9c;
+    color: #0d1117;
+    font-weight: bold;
+    font-size: 13px;
+    text-decoration: none;
+}
+.page-btn:hover { background: #00cc7a; color: #0d1117; }
+
+/* Charts Page */
+.charts-row {
+    display: flex;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.chart-box {
+    flex: 1;
+    background: #161b22;
+    border: 1px solid #00ff9c22;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Upload error */
+.upload-error {
+    margin-top: 16px;
+    padding: 12px 16px;
+    background: #2a0000;
+    border: 1px solid #ff4d4d44;
+    color: #ff4d4d;
+    font-size: 13px;
+}
+
+/* Tabs */
+.tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #00ff9c22;
+    padding-bottom: 15px;
+}
+
+.tab-btn {
+    background: transparent;
+    border: none;
+    color: #888;
+    font-size: 16px;
+    font-family: monospace;
+    cursor: pointer;
+    padding: 8px 16px;
+}
+
+.tab-btn:hover {
+    color: #00ff9c;
+}
+
+.tab-btn.active {
+    color: #0d1117;
+    background: #00ff9c;
+    font-weight: bold;
+    border-radius: 4px;
+}

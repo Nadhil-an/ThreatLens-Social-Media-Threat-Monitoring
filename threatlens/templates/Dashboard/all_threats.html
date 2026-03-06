@@ -1,37 +1,64 @@
 {% include 'head.html' with page_title='All Detected Threats' %}
 <body>
 <div class="wrapper">
-<h1>🛡 All Detected Threats</h1>
+
+<div class="header-bar">
+    <h1>🛡 All Detected Threats</h1>
+    <a href="/download-report/" class="scan-btn">⬇ Download PDF Report</a>
+</div>
+
+<!-- Search & Filter Form -->
+<form method="get" class="filter-form">
+    <input type="text" name="q" placeholder="Search keyword..." value="{{ keyword }}">
+    <select name="severity">
+        <option value="">All Severities</option>
+        <option value="High"   {% if severity == 'High' %}selected{% endif %}>High</option>
+        <option value="Medium" {% if severity == 'Medium' %}selected{% endif %}>Medium</option>
+        <option value="Low"    {% if severity == 'Low' %}selected{% endif %}>Low</option>
+    </select>
+    <input type="date" name="date_from" value="{{ date_from }}">
+    <input type="date" name="date_to"   value="{{ date_to }}">
+    <button type="submit">Filter</button>
+    <a href="/all-threats/" class="clear-btn">Clear</a>
+</form>
+
+<!-- Threats Table -->
 <table>
 <tr>
-<th>Suspicious Post</th>
-<th>Threat Type</th>
-<th>Severity</th>
-<th>Score</th>
-<th>Detected Time</th>
+    <th>Suspicious Post</th>
+    <th>Threat Type</th>
+    <th>Severity</th>
+    <th>Score</th>
+    <th>Detected Time</th>
 </tr>
-{% for threat in threats %}
+{% for threat in page_obj %}
 <tr>
-<td class="post-text">
-{{ threat.post.content|truncatechars:100 }}
-</td>
-<td>
-<a href="/threat/{{ threat.id }}/">
-{{ threat.threat_type }}
-</a>
-</td>
-<td class="{{ threat.severity|lower }}">
-{{ threat.severity }}
-</td>
-<td>
-{{ threat.score }}
-</td>
-<td>
-{{ threat.detected_at }}
-</td>
+    <td class="post-text">{{ threat.post.content|truncatechars:100 }}</td>
+    <td><a href="/threat/{{ threat.id }}/">{{ threat.threat_type }}</a></td>
+    <td class="{{ threat.severity|lower }}">{{ threat.severity }}</td>
+    <td>{{ threat.score }}</td>
+    <td>{{ threat.detected_at }}</td>
+</tr>
+{% empty %}
+<tr>
+    <td colspan="5" style="text-align:center; color:#888;">No threats found.</td>
 </tr>
 {% endfor %}
 </table>
+
+<!-- Pagination -->
+<div class="pagination">
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}&q={{ keyword }}&severity={{ severity }}&date_from={{ date_from }}&date_to={{ date_to }}" class="page-btn">◀ Prev</a>
+    {% endif %}
+
+    <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}&q={{ keyword }}&severity={{ severity }}&date_from={{ date_from }}&date_to={{ date_to }}" class="page-btn">Next ▶</a>
+    {% endif %}
+</div>
+
 </div>
 {% include 'footer.html' %}
 </body>
