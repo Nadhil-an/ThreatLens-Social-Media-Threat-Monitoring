@@ -1,192 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Threat Investigation</title>
-
-<style>
-
-/* ===== PAGE ===== */
-
-body{
-    background:#0d1117;
-    color:#00ff9c;
-    font-family:monospace;
-    margin:0;
-}
-
-/* ===== PAGE WRAPPER ===== */
-
-.wrapper{
-    max-width:1000px;
-    margin:auto;
-    padding:30px;
-}
-
-/* ===== TITLE ===== */
-
-.page-title{
-    text-align:center;
-    font-size:28px;
-    margin-bottom:25px;
-}
-
-/* ===== CARD ===== */
-
-.card{
-    background:#161b22;
-    padding:25px;
-    border:1px solid #00ff9c22;
-}
-
-/* ===== TABLE ===== */
-
-table{
-    width:100%;
-    border-collapse:collapse;
-    font-size:14px;
-}
-
-td, th{
-    padding:10px;
-    border-bottom:1px solid #00ff9c22;
-    vertical-align:top;
-}
-
-/* LABEL COLUMN */
-
-.label{
-    width:30%;
-    font-weight:bold;
-    color:#00e676;
-}
-
-/* VALUE COLUMN */
-
-.value{
-    width:70%;
-    color:#b8ffe7;
-    word-break:break-word;
-}
-
-/* ===== SEVERITY ===== */
-
-.high{
-    color:#ff4d4d;
-    font-weight:bold;
-}
-
-.medium{
-    color:#ffb300;
-    font-weight:bold;
-}
-
-.low{
-    color:#00ff9c;
-    font-weight:bold;
-}
-
-/* ===== SECTION TITLES ===== */
-
-.section-title{
-    margin-top:35px;
-    margin-bottom:10px;
-    font-size:20px;
-}
-
-/* ===== BUTTON ===== */
-
-.back-btn{
-    display:inline-block;
-    margin-top:25px;
-    padding:10px 16px;
-    background:#00ff9c;
-    color:#0d1117;
-    text-decoration:none;
-    font-weight:bold;
-    font-size:14px;
-}
-
-.back-btn:hover{
-    background:#00cc7a;
-}
-
-.center{
-    text-align:center;
-}
-
-</style>
-
-</head>
-
-
+{% include 'head.html' with page_title='Threat Investigation' %}
 <body>
-
 <div class="wrapper">
-
 <h1 class="page-title">Threat Investigation</h1>
-
 <div class="card">
-
 <!-- ===== Threat Summary ===== -->
-
 <h2 class="section-title">Threat Summary</h2>
-
 <table>
-
 <tr>
 <td class="label">Threat Type</td>
 <td class="value">{{ threat.threat_type }}</td>
 </tr>
-
 <tr>
 <td class="label">Severity</td>
 <td class="value {{ threat.severity|lower }}">{{ threat.severity }}</td>
 </tr>
-
 <tr>
 <td class="label">Score</td>
 <td class="value">{{ threat.score }}</td>
 </tr>
-
 <tr>
 <td class="label">Indicators</td>
 <td class="value">{{ threat.indicators }}</td>
 </tr>
-
 <tr>
 <td class="label">Detected Time</td>
 <td class="value">{{ threat.detected_at }}</td>
 </tr>
-
 <tr>
 <td class="label">Post Content</td>
 <td class="value">{{ threat.post.content }}</td>
 </tr>
-
 <tr>
 <td class="label">MITRE Technique</td>
 <td class="value">{{ mitre.technique }}</td>
 </tr>
-
 <tr>
 <td class="label">ATT&CK Tactic</td>
 <td class="value">{{ mitre.tactic }}</td>
 </tr>
-
 </table>
 
-
 <!-- ===== Extracted Indicators ===== -->
-
 <h2 class="section-title">Extracted Indicators</h2>
-
 <table>
-
 <tr>
 <td class="label">URLs</td>
 <td class="value">
@@ -197,7 +53,6 @@ None
 {% endfor %}
 </td>
 </tr>
-
 <tr>
 <td class="label">Domains</td>
 <td class="value">
@@ -208,7 +63,6 @@ None
 {% endfor %}
 </td>
 </tr>
-
 <tr>
 <td class="label">IP Addresses</td>
 <td class="value">
@@ -219,7 +73,6 @@ None
 {% endfor %}
 </td>
 </tr>
-
 <tr>
 <td class="label">Hashes</td>
 <td class="value">
@@ -230,7 +83,6 @@ None
 {% endfor %}
 </td>
 </tr>
-
 <tr>
 <td class="label">Keywords</td>
 <td class="value">
@@ -241,48 +93,34 @@ None
 {% endfor %}
 </td>
 </tr>
-
 </table>
 
-
 <!-- ===== Threat Intelligence ===== -->
-
 <h2 class="section-title">Threat Intelligence</h2>
-
 <table>
-
 <tr>
 <th>Hash</th>
 <th>Malicious</th>
 <th>Harmless</th>
 </tr>
-
 {% for vt in vt_results %}
-
 <tr>
 <td>{{ vt.hash }}</td>
 <td class="high">{{ vt.malicious }}</td>
 <td>{{ vt.harmless }}</td>
 </tr>
-
 {% empty %}
-
 <tr>
 <td colspan="3">No threat intelligence results</td>
 </tr>
-
 {% endfor %}
-
 </table>
-
 
 <div class="center">
 <a href="/" class="back-btn">Back to Dashboard</a>
 </div>
-
 </div>
-
 </div>
-
+{% include 'footer.html' %}
 </body>
 </html>

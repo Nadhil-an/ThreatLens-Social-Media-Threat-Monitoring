@@ -21,7 +21,7 @@ def dashboard(request):
     medium_threats = Threat.objects.filter(severity="Medium").count()
     low_threats = Threat.objects.filter(severity="Low").count()
 
-    recent_threats = Threat.objects.order_by('-detected_at')[:8]
+    recent_threats = Threat.objects.order_by('-detected_at')[:6]
 
     return render(request, "Dashboard/dashboard.html", {
         "total_threats": total_threats,
@@ -80,7 +80,7 @@ def threat_detail(request, threat_id):
         "hashes": hashes,
         "keywords": keywords,
         "vt_results": vt_results,
-        "mitre": mitre   # ← THIS WAS MISSING
+        "mitre": mitre   
     }
 
     return render(request, "Dashboard/threat_detail.html", context)

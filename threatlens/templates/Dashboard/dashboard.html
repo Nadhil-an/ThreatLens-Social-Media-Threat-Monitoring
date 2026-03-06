@@ -1,255 +1,46 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-
-<title>ThreatLens SOC Dashboard</title>
-
-<style>
-
-/* ===== PAGE ===== */
-
-body{
-    font-family:monospace;
-    background:#0d1117;
-    color:#00ff9c;
-    margin:0;
-}
-
-/* MAIN WRAPPER */
-
-.wrapper{
-    max-width:1100px;
-    margin:auto;
-    padding:30px;
-}
-
-/* ===== HEADER ===== */
-
-.header-bar{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:15px;
-}
-
-h1{
-    font-size:26px;
-    margin:0;
-}
-
-/* SCAN BUTTON */
-
-.scan-btn{
-    padding:8px 16px;
-    background:#00ff9c;
-    color:#0d1117;
-    text-decoration:none;
-    font-weight:bold;
-    font-size:14px;
-}
-
-.scan-btn:hover{
-    background:#00cc7a;
-}
-
-/* SOC STATUS */
-
-.soc-status{
-    color:#00e676;
-    margin-bottom:25px;
-    font-size:14px;
-}
-
-/* ===== STATS ===== */
-
-.stats-container{
-    display:flex;
-    gap:15px;
-    margin-bottom:35px;
-}
-
-.stat-box{
-    flex:1;
-    background:#161b22;
-    border:1px solid #00ff9c22;
-    padding:18px;
-    text-align:center;
-}
-
-.stat-title{
-    font-size:13px;
-    margin-bottom:6px;
-}
-
-.stat-number{
-    font-size:28px;
-    font-weight:bold;
-}
-
-/* SEVERITY COLORS */
-
-.high{
-    color:#ff4d4d;
-}
-
-.medium{
-    color:#ffb300;
-}
-
-.low{
-    color:#00ff9c;
-}
-
-/* ===== SECTION HEADER ===== */
-
-.section-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-.section-header h3{
-    font-size:18px;
-}
-
-/* VIEW ALL BUTTON */
-
-.view-all-btn{
-    padding:6px 12px;
-    background:#00ff9c;
-    color:#0d1117;
-    text-decoration:none;
-    font-weight:bold;
-    font-size:13px;
-}
-
-.view-all-btn:hover{
-    background:#00cc7a;
-}
-
-/* ===== TABLE ===== */
-
-table{
-    border-collapse:collapse;
-    width:100%;
-    margin-top:12px;
-    background:#161b22;
-}
-
-th{
-    background:#0f1720;
-    padding:10px;
-    font-size:13px;
-    border-bottom:1px solid #00ff9c22;
-    text-align:left;
-}
-
-td{
-    padding:10px;
-    font-size:13px;
-    border-bottom:1px solid #00ff9c11;
-    vertical-align:top;
-}
-
-/* ROW HOVER */
-
-tr:hover{
-    background:#00ff9c11;
-}
-
-/* HIGH SEVERITY ROW */
-
-.high-row{
-    background:#2a0000;
-}
-
-/* POST TEXT */
-
-.post-text{
-    color:#b8ffe7;
-    word-break:break-word;
-}
-
-/* LINKS */
-
-a{
-    color:#00e0ff;
-    text-decoration:none;
-}
-
-a:hover{
-    color:#00ff9c;
-}
-
-</style>
-
-</head>
-
-
+{% include 'head.html' with page_title='ThreatLens SOC Dashboard' %}
 <body>
-
 <div class="wrapper">
-
 <!-- HEADER -->
-
 <div class="header-bar">
-
 <h1>🛡 ThreatLens SOC Dashboard</h1>
-
 <a href="/posts/submit/" class="scan-btn">
 Scan Post
 </a>
-
 </div>
-
 <div class="soc-status">
 ⚡ SOC Status: Monitoring Threat Activity
 </div>
 
-
 <!-- ===== STATS ===== -->
-
 <div class="stats-container">
-
 <div class="stat-box">
 <div class="stat-title">Total Threats</div>
 <div class="stat-number">{{ total_threats }}</div>
 </div>
-
 <div class="stat-box">
 <div class="stat-title">High Severity</div>
 <div class="stat-number high">{{ high_threats }}</div>
 </div>
-
 <div class="stat-box">
 <div class="stat-title">Medium Severity</div>
 <div class="stat-number medium">{{ medium_threats }}</div>
 </div>
-
 <div class="stat-box">
 <div class="stat-title">Low Severity</div>
 <div class="stat-number low">{{ low_threats }}</div>
 </div>
-
 </div>
 
-
 <!-- ===== RECENT THREATS ===== -->
-
 <div class="section-header">
-
 <h3>Recent Threat Activity</h3>
-
 <a href="/all-threats/" class="view-all-btn">
 View All
 </a>
-
 </div>
 
-
 <table>
-
 <tr>
 <th>Suspicious Post</th>
 <th>Threat Type</th>
@@ -257,41 +48,29 @@ View All
 <th>Score</th>
 <th>Detected Time</th>
 </tr>
-
 {% for threat in recent_threats %}
-
 <tr class="{% if threat.severity == 'High' %}high-row{% endif %}">
-
 <td class="post-text">
 {{ threat.post.content|truncatechars:90 }}
 </td>
-
 <td>
 <a href="/threat/{{ threat.id }}/">
 {{ threat.threat_type }}
 </a>
 </td>
-
 <td class="{{ threat.severity|lower }}">
 {{ threat.severity }}
 </td>
-
 <td>
 {{ threat.score }}
 </td>
-
 <td>
 {{ threat.detected_at }}
 </td>
-
 </tr>
-
 {% endfor %}
-
 </table>
-
 </div>
-
+{% include 'footer.html' %}
 </body>
-
 </html>

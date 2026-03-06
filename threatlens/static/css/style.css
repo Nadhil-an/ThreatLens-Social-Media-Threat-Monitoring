@@ -1,0 +1,233 @@
+/* General */
+body {
+    font-family: monospace;
+    background: #0d1117;
+    color: #00ff9c;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+a {
+    color: #00e0ff;
+    text-decoration: none;
+    font-weight: bold;
+}
+a:hover {
+    color: #00ff9c;
+}
+
+h1, h2, h3 {
+    margin: 0 0 20px 0;
+}
+
+/* Layout */
+.wrapper {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 30px;
+    flex: 1;
+}
+
+.submit-container {
+    max-width: 850px;
+    margin: 40px auto;
+    padding: 30px;
+    flex: 1;
+}
+
+/* Header / Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 40px;
+    background: #0f1720;
+    border-bottom: 1px solid #00ff9c22;
+}
+
+.nav-title {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.nav-links a {
+    margin-left: 18px;
+    font-size: 14px;
+}
+
+.header-bar, .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.soc-status {
+    color: #00e676;
+    margin-bottom: 25px;
+    font-size: 14px;
+}
+
+/* Buttons */
+.scan-btn, .view-all-btn, .back-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    background: #00ff9c;
+    color: #0d1117;
+    font-weight: bold;
+    font-size: 13px;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+}
+.scan-btn:hover, .view-all-btn:hover, .back-btn:hover {
+    background: #00cc7a;
+    color: #0d1117;
+}
+
+.nav-buttons a {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-left: 8px;
+    background: #00ff9c;
+    color: #0d1117;
+    font-weight: bold;
+    font-size: 13px;
+}
+.nav-buttons a:hover {
+    background: #00cc7a;
+}
+
+button {
+    padding: 10px 18px;
+    background: #00ff9c;
+    color: #0d1117;
+    border: none;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: monospace;
+}
+button:hover {
+    background: #00cc7a;
+}
+
+/* Stats */
+.stats-container {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 35px;
+}
+
+.stat-box {
+    flex: 1;
+    background: #161b22;
+    border: 1px solid #00ff9c22;
+    padding: 18px;
+    text-align: center;
+}
+
+.stat-title { font-size: 13px; margin-bottom: 6px; }
+.stat-number { font-size: 28px; font-weight: bold; }
+
+/* Containers */
+.container {
+    background: #161b22;
+    padding: 20px;
+    border: 1px solid #00ff9c22;
+}
+
+.card {
+    background: #161b22;
+    padding: 25px;
+    border: 1px solid #00ff9c22;
+}
+
+/* Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #161b22;
+    margin-top: 12px;
+}
+
+th {
+    background: #0f1720;
+    padding: 10px;
+    font-size: 13px;
+    text-align: left;
+    border-bottom: 1px solid #00ff9c22;
+}
+
+td {
+    padding: 10px;
+    font-size: 13px;
+    border-bottom: 1px solid #00ff9c11;
+    vertical-align: top;
+}
+
+tr:hover { background: #00ff9c11; }
+.high-row { background: #2a0000; }
+
+/* Threat detail labels */
+.label { width: 30%; font-weight: bold; color: #00e676; }
+.value { width: 70%; color: #b8ffe7; word-break: break-word; }
+
+/* Severity colors */
+.high   { color: #ff4d4d; font-weight: bold; }
+.medium { color: #ffb300; font-weight: bold; }
+.low    { color: #00ff9c; font-weight: bold; }
+.safe   { color: #4caf50; font-weight: bold; }
+.score  { color: #00ff9c; font-weight: bold; }
+
+.post-text { color: #b8ffe7; word-break: break-word; }
+.page-title { text-align: center; font-size: 28px; }
+.section-title { margin-top: 35px; margin-bottom: 10px; font-size: 20px; }
+.center { text-align: center; }
+.back-btn { margin-top: 25px; }
+
+/* Forms */
+label { font-size: 14px; }
+
+textarea, input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    background: #0d1117;
+    border: 1px solid #00ff9c33;
+    color: #00ff9c;
+    font-size: 14px;
+    font-family: monospace;
+    box-sizing: border-box;
+}
+
+.result-panel {
+    margin-top: 30px;
+    padding: 20px;
+    background: #0d1117;
+    border: 1px solid #00ff9c22;
+}
+.result-panel h3 { font-size: 17px; margin-bottom: 15px; }
+
+.bottom-links { margin-top: 20px; }
+.bottom-links a { font-size: 14px; font-weight: normal; }
+
+/* Footer */
+.site-footer {
+    text-align: center;
+    padding: 20px;
+    border-top: 1px solid #00ff9c22;
+    font-size: 14px;
+    color: #00ff9c;
+    margin-top: auto;
+}

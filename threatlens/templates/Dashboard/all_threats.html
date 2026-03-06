@@ -1,117 +1,8 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-
-<title>All Detected Threats</title>
-
-<style>
-
-/* ===== PAGE ===== */
-
-body{
-    font-family:monospace;
-    background:#0d1117;
-    color:#00ff9c;
-    margin:0;
-}
-
-/* PAGE WRAPPER */
-
-.wrapper{
-    max-width:1100px;
-    margin:auto;
-    padding:30px;
-}
-
-/* TITLE */
-
-h1{
-    font-size:26px;
-    margin-bottom:20px;
-}
-
-/* TABLE */
-
-table{
-    width:100%;
-    border-collapse:collapse;
-    background:#161b22;
-}
-
-/* HEADER */
-
-th{
-    background:#0f1720;
-    padding:10px;
-    font-size:13px;
-    text-align:left;
-    border-bottom:1px solid #00ff9c22;
-}
-
-/* CELLS */
-
-td{
-    padding:10px;
-    font-size:13px;
-    border-bottom:1px solid #00ff9c11;
-    vertical-align:top;
-}
-
-/* ROW HOVER */
-
-tr:hover{
-    background:#00ff9c11;
-}
-
-/* SEVERITY COLORS */
-
-.high{
-    color:#ff4d4d;
-    font-weight:bold;
-}
-
-.medium{
-    color:#ffb300;
-    font-weight:bold;
-}
-
-.low{
-    color:#00ff9c;
-    font-weight:bold;
-}
-
-/* POST TEXT */
-
-.post-text{
-    color:#b8ffe7;
-    word-break:break-word;
-}
-
-/* LINKS */
-
-a{
-    color:#00e0ff;
-    font-weight:bold;
-    text-decoration:none;
-}
-
-a:hover{
-    color:#00ff9c;
-}
-
-</style>
-
-</head>
-
+{% include 'head.html' with page_title='All Detected Threats' %}
 <body>
-
 <div class="wrapper">
-
 <h1>🛡 All Detected Threats</h1>
-
 <table>
-
 <tr>
 <th>Suspicious Post</th>
 <th>Threat Type</th>
@@ -119,41 +10,29 @@ a:hover{
 <th>Score</th>
 <th>Detected Time</th>
 </tr>
-
 {% for threat in threats %}
-
 <tr>
-
 <td class="post-text">
 {{ threat.post.content|truncatechars:100 }}
 </td>
-
 <td>
 <a href="/threat/{{ threat.id }}/">
 {{ threat.threat_type }}
 </a>
 </td>
-
 <td class="{{ threat.severity|lower }}">
 {{ threat.severity }}
 </td>
-
 <td>
 {{ threat.score }}
 </td>
-
 <td>
 {{ threat.detected_at }}
 </td>
-
 </tr>
-
 {% endfor %}
-
 </table>
-
 </div>
-
+{% include 'footer.html' %}
 </body>
-
 </html>

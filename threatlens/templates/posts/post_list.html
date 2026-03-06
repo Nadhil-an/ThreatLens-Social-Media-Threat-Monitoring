@@ -1,215 +1,49 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-
-<title>ThreatLens | Submitted Posts</title>
-
-<style>
-
-/* ===== PAGE ===== */
-
-body{
-    background:#0d1117;
-    color:#00ff9c;
-    font-family:monospace;
-    margin:0;
-}
-
-/* WRAPPER */
-
-.wrapper{
-    max-width:1100px;
-    margin:auto;
-    padding:30px;
-}
-
-/* HEADER */
-
-.header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:20px;
-}
-
-h1{
-    font-size:24px;
-    margin:0;
-}
-
-/* NAV BUTTONS */
-
-.nav-buttons a{
-    padding:6px 12px;
-    margin-left:8px;
-    background:#00ff9c;
-    color:#0d1117;
-    text-decoration:none;
-    font-weight:bold;
-    font-size:13px;
-}
-
-.nav-buttons a:hover{
-    background:#00cc7a;
-}
-
-/* CONTAINER */
-
-.container{
-    background:#161b22;
-    padding:20px;
-    border:1px solid #00ff9c22;
-}
-
-/* TABLE */
-
-table{
-    width:100%;
-    border-collapse:collapse;
-}
-
-/* HEADER */
-
-th{
-    background:#0f1720;
-    padding:10px;
-    font-size:13px;
-    text-align:left;
-    border-bottom:1px solid #00ff9c22;
-}
-
-/* CELLS */
-
-td{
-    padding:10px;
-    font-size:13px;
-    border-bottom:1px solid #00ff9c11;
-    vertical-align:top;
-}
-
-/* HOVER */
-
-tr:hover{
-    background:#00ff9c11;
-}
-
-/* POST TEXT */
-
-.post-text{
-    color:#b8ffe7;
-    word-break:break-word;
-}
-
-/* SEVERITY */
-
-.high{
-    color:#ff4d4d;
-    font-weight:bold;
-}
-
-.medium{
-    color:#ffb300;
-    font-weight:bold;
-}
-
-.low{
-    color:#00ff9c;
-    font-weight:bold;
-}
-
-.safe{
-    color:#4caf50;
-    font-weight:bold;
-}
-
-.score{
-    color:#00ff9c;
-    font-weight:bold;
-}
-
-</style>
-
-</head>
-
-
+{% include 'head.html' with page_title='ThreatLens | Submitted Posts' %}
 <body>
-
 <div class="wrapper">
-
 <div class="header">
-
 <h1>Submitted Posts</h1>
-
 <div class="nav-buttons">
-
 <a href="/">Dashboard</a>
-
 <a href="{% url 'submit_post' %}">Scan Post</a>
-
 </div>
-
 </div>
-
 
 <div class="container">
-
 <table>
-
 <tr>
 <th>Source</th>
 <th>Content</th>
 <th>Severity</th>
 <th>Score</th>
 </tr>
-
-
 {% for post in posts %}
-
 <tr>
-
 <td>{{ post.source }}</td>
-
 <td class="post-text">
 {{ post.content }}
 </td>
-
 <td>
-
 {% if post.threat %}
-
 <span class="{{ post.threat.severity|lower }}">
 {{ post.threat.severity }}
 </span>
-
 {% else %}
-
 <span class="safe">SAFE</span>
-
 {% endif %}
-
 </td>
-
 <td>
-
 {% if post.threat %}
 <span class="score">{{ post.threat.score }}</span>
 {% else %}
 0
 {% endif %}
-
 </td>
-
 </tr>
-
 {% endfor %}
-
 </table>
-
 </div>
-
 </div>
-
+{% include 'footer.html' %}
 </body>
-
 </html>
