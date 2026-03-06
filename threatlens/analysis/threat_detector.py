@@ -8,8 +8,8 @@ from analysis.url_analyzer import (
 
 from analysis.threat_scoring import calculate_final_score, classify_severity
 from analysis.threat_manager import create_threat
-from analysis.threat_intel import check_domain_virustotal
-from analysis.hash_extractor import extract_hashes
+from analysis.threat_intel import check_domain_virustotal, check_ip_abuseipdb, scan_url_urlscan
+from analysis.indicator_extractor import extract_hashes
 from analysis.hash_analyzer import analyze_hash
 from analysis.mitre_mapper import map_mitre
 
@@ -96,23 +96,16 @@ def analyze_hashes(post_text):
 
     hashes = extract_hashes(post_text)
 
-    # MD5
-    for md5 in hashes["md5"]:
-
-        result = analyze_hash(md5)
+    for h in hashes:
+        result = analyze_hash(h)
 
         if result and result["score"] > 0:
-            score += 5
-            indicators.append("malicious_md5_hash")
-
-    # SHA256
-    for sha in hashes["sha256"]:
-
-        result = analyze_hash(sha)
-
-        if result and result["score"] > 0:
-            score += 6
-            indicators.append("malicious_sha256_hash")
+            if len(h) == 32:
+                score += 5
+                indicators.append("malicious_md5_hash")
+            elif len(h) == 64:
+                score += 6
+                indicators.append("malicious_sha256_hash")
 
     return score, indicators
 
@@ -153,6 +146,32 @@ def classify_threat_type(post_text, indicators):
 
 
 # ----------------------------------
+# IP ANALYSIS
+# ----------------------------------
+
+def analyze_ips(ips):
+
+    score = 0
+    indicators = []
+    max_abuse_score = 0
+
+    for ip in ips:
+        abuse_score = check_ip_abuseipdb(ip)
+        
+        if abuse_score and abuse_score > 0:
+            if abuse_score > max_abuse_score:
+                max_abuse_score = abuse_score
+
+            if abuse_score > 50:
+                score += 5
+                indicators.append("malicious_ip_abuseipdb")
+            elif abuse_score > 10:
+                score += 2
+                indicators.append("suspicious_ip_abuseipdb")
+
+    return score, indicators, max_abuse_score if max_abuse_score > 0 else None
+
+# ----------------------------------
 # MAIN ANALYSIS PIPELINE
 # ----------------------------------
 
@@ -163,6 +182,15 @@ def analyze_post(post, keywords, urls, domains, ips, hashes):
 
     # URL analysis
     url_score, url_indicators = analyze_urls(urls, domains)
+    
+    # URLScan API
+    screenshot_url = None
+    if urls:
+        # scan the first URL to save time and API quota
+        screenshot_url = scan_url_urlscan(urls[0])
+
+    # IP analysis
+    ip_score, ip_indicators, abuseipdb_score = analyze_ips(ips)
 
     # Hash analysis
     hash_score, hash_indicators = analyze_hashes(post.content)
@@ -171,13 +199,15 @@ def analyze_post(post, keywords, urls, domains, ips, hashes):
     total_score = calculate_final_score(
         keyword_score,
         url_score,
-        hash_score
+        hash_score,
+        ip_score
     )
 
     # Combine indicators
     indicators = list(set(
         keyword_indicators +
         url_indicators +
+        ip_indicators +
         hash_indicators
     ))
 
@@ -194,13 +224,15 @@ def analyze_post(post, keywords, urls, domains, ips, hashes):
     mitre = map_mitre(threat_type)
 
     # Save threat
-    if total_score > 0 and post is not None:
+    if total_score > 0 and post is not None and hasattr(post, 'pk'):
         create_threat(
             post,
             threat_type,
             total_score,
             severity,
-            indicators
+            indicators,
+            screenshot_url=screenshot_url,
+            abuseipdb_score=abuseipdb_score
         )
 
     return threat_type, total_score, severity, indicators, mitre

@@ -41,6 +41,10 @@ class Threat(models.Model):
     indicators = models.TextField()
 
     vt_detections = models.IntegerField(null=True, blank=True)
+    
+    screenshot_url = models.URLField(max_length=500, null=True, blank=True)
+    
+    abuseipdb_score = models.IntegerField(null=True, blank=True)
 
     detected_at = models.DateTimeField(auto_now_add=True)
 

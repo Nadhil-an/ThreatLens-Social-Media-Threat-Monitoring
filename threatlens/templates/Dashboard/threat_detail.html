@@ -26,6 +26,12 @@
 <td class="label">Detected Time</td>
 <td class="value">{{ threat.detected_at }}</td>
 </tr>
+{% if threat.abuseipdb_score %}
+<tr>
+<td class="label">AbuseIPDB Score</td>
+<td class="value {% if threat.abuseipdb_score > 50 %}high{% elif threat.abuseipdb_score > 10 %}medium{% endif %}">{{ threat.abuseipdb_score }}% Confidence</td>
+</tr>
+{% endif %}
 <tr>
 <td class="label">Post Content</td>
 <td class="value">{{ threat.post.content }}</td>
@@ -94,6 +100,16 @@ None
 </td>
 </tr>
 </table>
+
+<!-- ===== URLScan Visual Evidence ===== -->
+{% if threat.screenshot_url %}
+<h2 class="section-title">URLScan Evidence</h2>
+<div class="center" style="margin-bottom: 20px;">
+    <a href="{{ threat.screenshot_url }}" target="_blank">
+        <img src="{{ threat.screenshot_url }}" alt="URLScan Screenshot" style="max-width: 100%; border: 1px solid #333; border-radius: 4px;">
+    </a>
+</div>
+{% endif %}
 
 <!-- ===== Threat Intelligence ===== -->
 <h2 class="section-title">Threat Intelligence</h2>

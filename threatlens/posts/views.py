@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from .models import Post
 from .forms import PostForm
 from threats.models import Threat

@@ -35,9 +35,9 @@ THREAT_SCORES = {
 # FINAL SCORE CALCULATION
 # ----------------------------------------
 
-def calculate_final_score(keyword_score, url_score, hash_score):
+def calculate_final_score(keyword_score, url_score, hash_score, ip_score=0):
 
-    total_score = keyword_score + url_score + hash_score
+    total_score = keyword_score + url_score + hash_score + ip_score
 
     # Cap the maximum score to 10
     if total_score > 10:

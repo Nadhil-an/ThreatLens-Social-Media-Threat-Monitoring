@@ -81,3 +81,76 @@ def check_hash_virustotal(file_hash):
 
         print("VirusTotal Hash API error:", e)
         return None
+
+# -------------------------------
+# IP Reputation Check (AbuseIPDB)
+# -------------------------------
+
+def check_ip_abuseipdb(ip_address):
+
+    url = "https://api.abuseipdb.com/api/v2/check"
+    
+    querystring = {
+        'ipAddress': ip_address,
+        'maxAgeInDays': '90'
+    }
+    
+    headers = {
+        'Accept': 'application/json',
+        'Key': settings.ABUSEIPDB_API_KEY
+    }
+
+    try:
+        response = requests.get(url, headers=headers, params=querystring)
+        print("AbuseIPDB STATUS:", response.status_code)
+
+        if response.status_code != 200:
+            print("AbuseIPDB Error:", response.text)
+            return 0
+
+        data = response.json()
+        score = data['data']['abuseConfidenceScore']
+        print(f"AbuseIPDB Confidence Score for {ip_address}: {score}%")
+        return score
+
+    except Exception as e:
+        print("AbuseIPDB API error:", e)
+        return 0
+
+# -------------------------------
+# URL Screenshotting (URLScan.io)
+# -------------------------------
+
+def scan_url_urlscan(target_url):
+
+    url = "https://urlscan.io/api/v1/scan/"
+
+    headers = {
+        "API-Key": settings.URLSCAN_API_KEY,
+        "Content-Type": "application/json"
+    }
+    
+    payload = {
+        "url": target_url,
+        "visibility": "public" 
+    }
+
+    try:
+        response = requests.post(url, headers=headers, json=payload)
+        print("URLScan STATUS:", response.status_code)
+
+        if response.status_code == 200:
+            data = response.json()
+            # The screenshot URL usually follows this format automatically
+            uuid = data.get("uuid")
+            if uuid:
+                screenshot_url = f"https://urlscan.io/screenshots/{uuid}.png"
+                print(f"URLScan Screenshot ready: {screenshot_url}")
+                return screenshot_url
+        else:
+            print("URLScan Error:", response.text)
+            return None
+
+    except Exception as e:
+        print("URLScan API error:", e)
+        return None
