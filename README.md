@@ -20,7 +20,7 @@ ThreatLens is a modern Django-based web application designed to monitor and anal
 ![SOC Dashboard](assets/dashboard.png)
 
 ### Threat Analysis (Text Input)
-![Text Analysis](assets/text_input.png)
+![Text Analysis](assets/threat_list.png)
 
 ### Threat Analysis (File Upload)
 ![File Analysis](assets/file_upload.png)
