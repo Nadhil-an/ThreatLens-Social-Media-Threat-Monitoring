@@ -1,4 +1,4 @@
-# ThreatLens (Social Media Threat Monitoring)
+# ThreatLens (Threat Monitoring)
 
 ThreatLens is a modern Django-based web application designed to monitor and analyze potential cyber threats from social media and messaging platforms like Telegram. It integrates with real-time threat intelligence APIs to provide automated scoring and severity classification.
 
