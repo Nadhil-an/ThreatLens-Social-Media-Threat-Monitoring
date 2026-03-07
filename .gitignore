@@ -3,5 +3,8 @@ __pycache__/
 *.pyc
 db.sqlite3
 .env
-threatlens_session
+*.session
+.vscode/
 .DS_Store
+venv/
+__pycache__/
